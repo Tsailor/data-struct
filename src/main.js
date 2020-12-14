@@ -1,11 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
+import VueRouter from 'vue-router'
+import router from './router/index'
+import { Button } from 'element-ui'
 
+Vue.config.productionTip = false
+Vue.use(VueRouter)
 
-Vue.config.productionTip = false;
-// 区分 环境
-// console.log("环境:",process.env.NODE_ENV)
+Vue.component(Button.name, Button)
 
 new Vue({
-  render: h => h(App),
+    router,
+    render: h => h(App),
 }).$mount('#app')
