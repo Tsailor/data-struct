@@ -3,22 +3,19 @@ import ExHome from '../examples/index'
 import AvatarUpload from '../examples/avatar-upload'
 import VueRouter from 'vue-router'
 const routes = [
-    { path: '/', exact: true, component: Helloworld },
+    { path: '/', component: Helloworld },
     {
         path: '/examples',
-        exact: true,
         component: ExHome,
         children: [
             {
-                path: '/avatarUpload',
-                exact: true,
+                path: 'avatarUpload',
                 component: AvatarUpload,
             },
         ],
     },
     {
         path: '/avatarUpload',
-        exact: true,
         component: AvatarUpload,
     },
 ]
