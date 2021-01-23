@@ -42,6 +42,7 @@
 
 <script>
 export default {
+    name: 'AvatarUpload',
     data() {
         return {
             imageUrl:
@@ -53,6 +54,7 @@ export default {
             // this.imageUrl = URL.createObjectURL(file.raw) // 这个是本地imgUrl,没有用的。
             // res 就是调接口的返回值
             // 假设返回内容就是这个
+            console.log(res)
             res = {
                 code: 1,
                 data: {

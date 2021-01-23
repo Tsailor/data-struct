@@ -1,23 +1,31 @@
 <template>
     <div>
-        <h2>Examples</h2>
-        <router-view></router-view>
+        <div class="container" v-for="li in lists" v-bind:key="li.path">
+            <router-link v-bind:to="li.path">
+                {{ li.path }}
+            </router-link>
+        </div>
+
+        <!-- <router-link to="/home">Home</router-link> -->
     </div>
 </template>
+<style>
+.container {
+    text-align: left;
+    margin: 10px 30px;
+}
+</style>
 <script>
-// import axios from 'axios'
-// import { routes } from '../router/index'
+import { routes } from '../router/index'
 
 export default {
-    name: 'Index',
-    // props: {
-    //     msg: String,
-    // },
-    // data() {
-    //     return {
-    //         lists: routes.filter(v => v.path === '/examples')[0].children,
-    //     }
-    // },
+    name: 'ExHome',
+
+    data() {
+        return {
+            lists: routes.filter(v => v.path === '/examples')[0].children,
+        }
+    },
     methods: {
         // requestData() {
         //     axios
@@ -35,7 +43,7 @@ export default {
         // },
     },
     created() {
-        //  console.log(routes)
+        console.log(routes)
         // this.requestData()
     },
 }
