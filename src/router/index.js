@@ -3,6 +3,7 @@ import ExHome from '../examples/home'
 import Index from '../examples/index'
 import AvatarUpload from '../examples/avatar-upload'
 import Search from '../examples/search'
+import ChoiceQuestion from '../examples/choice-question'
 import VueRouter from 'vue-router'
 export const routes = [
     { path: '/', component: Helloworld },
@@ -22,6 +23,10 @@ export const routes = [
             {
                 path: 'search',
                 component: Search,
+            },
+            {
+                path: 'choice-question',
+                component: ChoiceQuestion,
             },
         ],
     },
