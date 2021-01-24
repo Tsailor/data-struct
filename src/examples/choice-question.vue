@@ -57,15 +57,15 @@
                             : '新建选择题'
                     "
                     :visible.sync="visible"
-                    :width="'60'"
+                    :width="'600px'"
                     :center="true"
                 >
                     <el-form
                         :model="chooseDailogData"
                         ref="chooseDailogData"
-                        label-width="100px"
+                        label-width="20%"
                         class="demo-dynamic"
-                        style="width:80%;"
+                        style="width:90%;"
                     >
                         <el-form-item
                             prop="title"
@@ -96,13 +96,14 @@
                         >
                             <el-input
                                 v-model="option.value"
-                                style="width:50%"
-                            ></el-input
-                            ><el-button
-                                style="width:20%;margin-left:5%"
-                                @click.prevent=""
-                                >删除</el-button
-                            >
+                                style="width:60%"
+                            ></el-input>
+                            <el-button
+                                style="margin-left:5%"
+                                icon="el-icon-minus"
+                                circle
+                                v-on:click.stop=""
+                            ></el-button>
                         </el-form-item>
                         <!-- <el-form-item>
                             <el-button type="primary">提交</el-button>
