@@ -23,19 +23,28 @@
 </template>
 <style lang="stylus"></style>
 <script>
-import { getQuestions } from '../server/examples'
+import { getQuestions, getArticles } from '../server/examples'
 export default {
     name: 'Search',
     data() {
         return {
             input: '',
+            input3: '',
+            select: '',
         }
     },
     methods: {
-        async searchLists(e) {
-            console.log(e)
-            // const res = await getQuestions()
-        },
+        // async searchLists(e) {
+        //     console.log(e)
+        //     const res = await getQuestions()
+        //     console.log(res)
+        // },
+    },
+    async created() {
+        // const res = await getQuestions()
+        // console.log(res)
+        // const res2 = await getArticles()
+        // console.log(res2)
     },
 }
 </script>

@@ -16,7 +16,69 @@ const questionData = function() {
         data: questions,
     }
 }
+var lists = [
+    {
+        // 题目数据
+        title: '下列国家中是发展中的国家是？',
+        questionId: 520,
+        type: 'choose',
+        single: true, // 单选
+        options: [
+            { key: 0, value: '美国' },
+            { key: 1, value: '中国' },
+            { key: 2, value: '韩国' },
+            { key: 3, value: '英国' },
+        ],
+        answer: ['B'], // 多选时则 多个 如果是后端判题，这个可以不要，建议后端判题
+        checkedOptions: [],
+    },
+    {
+        // 题目数据
+        title: '下列不属于社会主义核心价值观的是？',
+        questionId: 521,
+        type: 'choose',
+        single: false,
+        options: [
+            { key: 0, value: '谄媚' },
+            { key: 1, value: '民主' },
+            { key: 2, value: '自私' },
+            { key: 3, value: '和谐' },
+        ],
 
+        answer: [0, 2], // 多选时则 多个
+        checkedOptions: [], // 选中的内容
+    },
+    {
+        // 题目数据
+        title: '下列不属于社会主义核心价值观的是？',
+        questionId: 522,
+        type: 'choose',
+        single: false,
+        options: [
+            { key: 0, value: '狡猾' },
+            { key: 1, value: '爱国' },
+            { key: 2, value: '小气' },
+            { key: 3, value: '自强' },
+        ],
+
+        answer: [0, 2], // 多选时则 多个
+        checkedOptions: [], // 选中的内容
+    },
+]
+// 查询所有选择题的数据
+const choiceQuestionLists = function() {
+    return {
+        data: lists,
+    }
+}
+// 删除题目
+const delChoiceQuestion = function(options) {
+    const { questionId } = JSON.parse(options.body)
+    lists = lists.filter(item => item.questionId !== questionId)
+    return {}
+}
 module.exports = {
     questionData,
+    choiceQuestionLists,
+    delChoiceQuestion,
 }

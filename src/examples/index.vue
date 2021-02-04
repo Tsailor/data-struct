@@ -5,7 +5,7 @@
     </div>
 </template>
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 // import { routes } from '../router/index'
 
 export default {
@@ -19,24 +19,28 @@ export default {
     //     }
     // },
     methods: {
-        // requestData() {
-        //     axios
-        //         .get('/api/articles')
-        //         .then(e => {
-        //             let data = e.data
-        //             if (data.data && Array.isArray(data.data)) {
-        //                 this.articles = data.data
-        //             }
-        //             console.log(this.articles)
-        //         })
-        //         .catch(err => {
-        //             console.log(err)
-        //         })
-        // },
+        requestData() {
+            axios
+                .get('/api/articles')
+                .then(e => {
+                    let data = e.data
+                    if (data.data && Array.isArray(data.data)) {
+                        this.articles = data.data
+                    }
+                    console.log(this.articles)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            //  '/api/questionData'
+            axios.get('/api/questionData').then(e => {
+                console.log('e', e)
+            })
+        },
     },
-    created() {
+    mounted() {
         //  console.log(routes)
-        // this.requestData()
+        //  this.requestData()
     },
 }
 </script>

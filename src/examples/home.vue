@@ -43,7 +43,7 @@ export default {
         // },
     },
     created() {
-        console.log(routes)
+        //  console.log(routes)
         // this.requestData()
     },
 }

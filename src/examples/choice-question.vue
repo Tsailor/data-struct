@@ -36,11 +36,11 @@
                             <el-checkbox-group
                                 v-model="item.checkedOptions"
                                 :min="0"
-                                :max="item.single ? 1 : item.optons.length"
+                                :max="item.single ? 1 : item.options.length"
                                 class="checkgroup"
                             >
                                 <el-checkbox
-                                    v-for="op in item.optons"
+                                    v-for="op in item.options"
                                     :label="DIRECTIONARY[op.key]"
                                     :key="op.ke"
                                     >{{ DIRECTIONARY[op.key] }} {{ op.value }}
@@ -51,11 +51,7 @@
                 </el-collapse>
 
                 <el-dialog
-                    v-bind:title="
-                        chooseDailogData.questionId
-                            ? '编辑选择题'
-                            : '新建选择题'
-                    "
+                    v-bind:title="'编辑选择题'"
                     :visible.sync="visible"
                     :width="'600px'"
                     :center="true"
@@ -83,14 +79,14 @@
                             ></el-input>
                         </el-form-item>
                         <el-form-item
-                            v-for="(option, index) in chooseDailogData.optons"
+                            v-for="(option, index) in chooseDailogData.options"
                             :label="'选项' + (index + 1)"
-                            :key="index"
-                            :prop="'option' + index"
+                            :key="option.key"
+                            :prop="'options.' + index + '.value'"
                             :size="'medium'"
                             :rules="{
                                 required: true,
-                                message: `选项${index}不能为空`,
+                                message: `选项${index + 1}不能为空`,
                                 trigger: 'blur',
                             }"
                         >
@@ -102,16 +98,12 @@
                                 style="margin-left:5%"
                                 icon="el-icon-minus"
                                 circle
-                                v-on:click.stop=""
+                                v-on:click.stop="handleDelOptions(option)"
                             ></el-button>
                         </el-form-item>
-                        <!-- <el-form-item>
-                            <el-button type="primary">提交</el-button>
-                            <el-button @click="addDomain">新增域名</el-button>
-                            <el-button @click="resetForm('dynamicValidateForm')"
-                                >重置</el-button
-                            >
-                        </el-form-item> -->
+                        <el-form-item>
+                            <el-button type="info" plain>新增选项</el-button>
+                        </el-form-item>
                     </el-form>
 
                     <div slot="footer" class="dialog-footer">
@@ -141,47 +133,16 @@
 }
 </style>
 <script>
-// import axios from 'axios'
-// import { routes } from '../router/index'
-
+import { Message } from 'element-ui'
+import { MessageBox } from 'element-ui'
+import { getChoiceQuestionLists, delChoiceQuestion } from '../server/examples'
+import { deepClone } from '../utils/util'
 export default {
     name: 'ChoiceQuestion',
     data() {
         return {
             DIRECTIONARY: 'ABCDEFGHIJKLMN',
-            data: [
-                {
-                    // 题目数据
-                    title: '下列国家中是发展中的国家是？',
-                    questionId: 520,
-                    type: 'choose',
-                    single: true, // 单选
-                    optons: [
-                        { key: 0, value: '美国' },
-                        { key: 1, value: '中国' },
-                        { key: 2, value: '韩国' },
-                        { key: 3, value: '英国' },
-                    ],
-                    answer: ['B'], // 多选时则 多个 如果是后端判题，这个可以不要，建议后端判题
-                    checkedOptions: [],
-                },
-                {
-                    // 题目数据
-                    title: '下列不属于社会主义核心价值观的是？',
-                    questionId: 521,
-                    type: 'choose',
-                    single: false,
-                    optons: [
-                        { key: 0, value: '谄媚' },
-                        { key: 1, value: '民主' },
-                        { key: 2, value: '自私' },
-                        { key: 3, value: '和谐' },
-                    ],
-
-                    answer: [0, 2], // 多选时则 多个
-                    checkedOptions: [], // 选中的内容
-                },
-            ],
+            pageData: [],
             visible: false, // 模态框可见标识  点击编辑可见
             activeNames: ['0'], // 默认首个可见
             chooseDailogData: {}, // 选择题模态框数据
@@ -189,17 +150,57 @@ export default {
     },
     computed: {
         chooseDatas: function() {
-            return this.data.filter(v => v.type === 'choose')
+            return this.pageData.filter(v => v.type === 'choose')
         },
     },
     methods: {
-        handleChooseEdit: function(item) {
-            console.log(item)
-            this.visible = true
-            this.chooseDailogData = item // 选择题模态框数据
+        getLists: async function(params) {
+            const res = await getChoiceQuestionLists(params)
+            console.log('getChoiceQuestionLists', res)
+            if (res.status === 200) {
+                this.pageData = res.data.data
+            }
         },
-        handleChooseDel: function(item) {},
+        // 编辑题目
+        handleChooseEdit: function(item) {
+            // console.log(item)
+            this.visible = true
+            this.chooseDailogData = deepClone(item) // 选择题模态框数据
+        },
+        // 删除题目
+        handleChooseDel: function(item) {
+            const that = this
+            MessageBox({
+                title: '提示',
+                message: '此操作将永久删除该题目, 是否继续?',
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                callback: async function(action) {
+                    if (action === 'confirm') {
+                        const { questionId } = item
+                        const res = await delChoiceQuestion({ questionId })
+                        if (res.status === 200) {
+                            Message.success('操作成功')
+                            that.getLists()
+                        }
+                    }
+                },
+            })
+        },
+        // 删除一个选项
+        handleDelOptions: function(option) {
+            const ops = this.chooseDailogData.options.filter(
+                v => v.key !== option.key
+            )
+            this.chooseDailogData = {
+                ...this.chooseDailogData,
+                options: ops,
+            }
+        },
     },
-    created() {},
+    created() {
+        this.getLists()
+    },
 }
 </script>
