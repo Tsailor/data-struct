@@ -12,6 +12,7 @@ const {
     questionData,
     choiceQuestionLists,
     delChoiceQuestion,
+    editChoices,
 } = require('./examples')
 // search
 Mock.mock('/api/questionData', 'get', questionData)
@@ -21,3 +22,4 @@ Mock.mock('/api/choiceQuestionLists', 'get', choiceQuestionLists)
 Mock.mock('/api/delChoiceQuestion', 'post', options =>
     delChoiceQuestion(options)
 )
+Mock.mock('/api/editChoices', 'post', options => editChoices(options))

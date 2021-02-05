@@ -18,6 +18,7 @@ import {
     Dialog,
     Form,
     FormItem,
+    Switch,
 } from 'element-ui'
 import './config/config'
 
@@ -39,6 +40,7 @@ Vue.use(CheckboxGroup)
 Vue.use(Dialog)
 Vue.use(Form)
 Vue.use(FormItem)
+Vue.use(Switch)
 new Vue({
     router,
     render: h => h(App),

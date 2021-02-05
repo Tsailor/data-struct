@@ -29,7 +29,7 @@ var lists = [
             { key: 2, value: '韩国' },
             { key: 3, value: '英国' },
         ],
-        answer: ['B'], // 多选时则 多个 如果是后端判题，这个可以不要，建议后端判题
+        answer: [1], // 多选时则 多个 如果是后端判题，这个可以不要，建议后端判题
         checkedOptions: [],
     },
     {
@@ -77,8 +77,16 @@ const delChoiceQuestion = function(options) {
     lists = lists.filter(item => item.questionId !== questionId)
     return {}
 }
+// 编辑题目
+const editChoices = function(options) {
+    let data = JSON.parse(options.body)
+    data = { ...data, answer: data.answer.sort((a, b) => a - b) }
+    lists = lists.map(v => (v.questionId === data.questionId ? data : v))
+    return {}
+}
 module.exports = {
     questionData,
     choiceQuestionLists,
     delChoiceQuestion,
+    editChoices,
 }

@@ -8,10 +8,15 @@
 
 ### Compiles and hot-reloads for development
 
+#### Start
+
 ```
+
+开发环境：
 npm run dev
 或者
-npm run dev:mock  (mockk暂未配置)
+本地Mock数据：
+npm run dev:mock
 ```
 
 ```

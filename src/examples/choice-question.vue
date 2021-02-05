@@ -46,6 +46,14 @@
                                     >{{ DIRECTIONARY[op.key] }} {{ op.value }}
                                 </el-checkbox>
                             </el-checkbox-group>
+                            <div class="answerbox">
+                                正确答案：<span
+                                    class="answerSpan"
+                                    v-for="(ans, i) in item.answer"
+                                    :key="i"
+                                    >{{ DIRECTIONARY[ans] }}</span
+                                >
+                            </div>
                         </div>
                     </el-collapse-item>
                 </el-collapse>
@@ -80,13 +88,15 @@
                         </el-form-item>
                         <el-form-item
                             v-for="(option, index) in chooseDailogData.options"
-                            :label="'选项' + (index + 1)"
+                            :label="'选项' + DIRECTIONARY[option.key]"
                             :key="option.key"
                             :prop="'options.' + index + '.value'"
                             :size="'medium'"
                             :rules="{
                                 required: true,
-                                message: `选项${index + 1}不能为空`,
+                                message: `选项${
+                                    DIRECTIONARY[option.key]
+                                }不能为空`,
                                 trigger: 'blur',
                             }"
                         >
@@ -101,14 +111,58 @@
                                 v-on:click.stop="handleDelOptions(option)"
                             ></el-button>
                         </el-form-item>
-                        <el-form-item>
-                            <el-button type="info" plain>新增选项</el-button>
+                        <el-form-item label="单选题">
+                            <el-switch
+                                :active-text="
+                                    chooseDailogData.single
+                                        ? 'tips:本题为单选题'
+                                        : 'tips:本题为多选题'
+                                "
+                                v-model="chooseDailogData.single"
+                                @change="handleChoiceTypeChange"
+                            ></el-switch>
+                        </el-form-item>
+                        <el-form-item
+                            label="设置答案"
+                            :size="'medium'"
+                            :rules="answerRule"
+                            prop="answer"
+                        >
+                            <el-select
+                                v-if="chooseDailogData.single === true"
+                                v-model="chooseDailogData.answer[0]"
+                                placeholder="请选择"
+                                @change="handleSingleChooseChange"
+                            >
+                                <el-option
+                                    v-for="item in chooseDailogData.options"
+                                    :key="item.key"
+                                    :label="DIRECTIONARY[item.key]"
+                                    :value="item.key"
+                                >
+                                </el-option>
+                            </el-select>
+                            <el-select
+                                v-else
+                                v-model="chooseDailogData.answer"
+                                placeholder="请选择"
+                                multiple
+                            >
+                                <el-option
+                                    v-for="item in chooseDailogData.options"
+                                    :key="item.key"
+                                    :label="DIRECTIONARY[item.key]"
+                                    :value="item.key"
+                                >
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-form>
 
                     <div slot="footer" class="dialog-footer">
-                        <el-button @click="visible = false">取 消</el-button>
-                        <el-button type="primary" @click="visible = false"
+                        <el-button @click="handleAddOption">新增选项</el-button>
+                        <el-button @click="handleCancel">取 消</el-button>
+                        <el-button type="primary" @click="handleSubmit"
                             >确 定</el-button
                         >
                     </div>
@@ -131,26 +185,102 @@
     display: flex;
     justify-content: space-evenly;
 }
+.el-collapse-item__content {
+    padding-bottom: 10px;
+}
+.answerbox {
+    padding: 10px 20px 0 20px;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: left;
+    box-sizing: border-box;
+}
+.answerSpan {
+    margin: 0 4px;
+    color: #04e015;
+}
 </style>
 <script>
 import { Message } from 'element-ui'
 import { MessageBox } from 'element-ui'
-import { getChoiceQuestionLists, delChoiceQuestion } from '../server/examples'
+import {
+    getChoiceQuestionLists,
+    delChoiceQuestion,
+    editChoices,
+} from '../server/examples'
 import { deepClone } from '../utils/util'
+
 export default {
     name: 'ChoiceQuestion',
     data() {
+        // 自定义答案的校验暂未实现。
+        var validateAnswer = (rule, value, callback) => {
+            console.log('value', value)
+            // if (value.length === 0) {
+            callback(new Error('请设置答案'))
+            // } else {
+            //   if (this.ruleForm.checkPass !== '') {
+            //     this.$refs.ruleForm.validateField('checkPass');
+            //   }
+            //  callback()
+            // }
+        }
         return {
             DIRECTIONARY: 'ABCDEFGHIJKLMN',
             pageData: [],
             visible: false, // 模态框可见标识  点击编辑可见
             activeNames: ['0'], // 默认首个可见
             chooseDailogData: {}, // 选择题模态框数据
+
+            isEdit: false, // 点击编辑的时候，里面的表单是否发生改动
+            answerRule: [
+                { required: true, validator: validateAnswer, trigger: 'blur' },
+            ],
+
+            // validateAnswer: (rule, value, callback) => {
+            //     console.log(value)
+            //     // if (value.length === 0) {
+            //     //   callback(new Error('请设置答案'));
+            //     // } else {
+            //     //   if (this.ruleForm.checkPass !== '') {
+            //     //     this.$refs.ruleForm.validateField('checkPass');
+            //     //   }
+            //     //   callback();
+            //     // }
+            // },
         }
     },
     computed: {
+        // 选择题的数据
         chooseDatas: function() {
             return this.pageData.filter(v => v.type === 'choose')
+        },
+    },
+    watch: {
+        chooseDailogData: {
+            handler(newData, oldData) {
+                // 首次监听 oldValue 值异常 剔除。
+                if (!oldData.options) {
+                    return
+                }
+                this.isEdit = true
+                // 选择题的选项数目发生变化的时候
+                if (newData.options.length !== oldData.options.length) {
+                    // options 里面是否有 k
+                    const InOPtions = k => {
+                        return newData.options.some(v => v.key === k)
+                    }
+                    // 答案的选项必须都在 题目的选项 里面
+                    const ans = newData.answer.filter(v => InOPtions(v))
+                    this.chooseDailogData.answer = ans
+                }
+            },
+            immediate: false,
+            deep: true,
+        },
+        pageData: function(v) {
+            console.log('pageData', v)
         },
     },
     methods: {
@@ -166,6 +296,7 @@ export default {
             // console.log(item)
             this.visible = true
             this.chooseDailogData = deepClone(item) // 选择题模态框数据
+            this.isEdit = false
         },
         // 删除题目
         handleChooseDel: function(item) {
@@ -190,14 +321,73 @@ export default {
         },
         // 删除一个选项
         handleDelOptions: function(option) {
-            const ops = this.chooseDailogData.options.filter(
+            let ops = this.chooseDailogData.options.filter(
                 v => v.key !== option.key
             )
+            // 重置 选项的key
+            ops = ops.map((v, i) => {
+                return { key: i, value: v.value }
+            })
             this.chooseDailogData = {
                 ...this.chooseDailogData,
                 options: ops,
             }
         },
+        // 增加一个选项
+        handleAddOption: function() {
+            let length = this.chooseDailogData.options.length
+            this.chooseDailogData.options.push({ key: length, value: '' })
+        },
+        // 切换答案选择类型（单选/多选）的时候
+        handleChoiceTypeChange: function() {
+            this.chooseDailogData.answer = []
+        },
+        // 单选时，答案改变时，手动设置answer
+        handleSingleChooseChange: function(v) {
+            this.chooseDailogData.answer = [v]
+        },
+        // 点击编辑后，点击取消
+        handleCancel: function() {
+            const that = this
+            if (this.isEdit) {
+                MessageBox({
+                    title: '提示',
+                    message: '此次编辑尚未保存，确认离开?',
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning',
+                    callback: async function(action) {
+                        if (action === 'confirm') {
+                            that.visible = false
+                        }
+                    },
+                })
+            } else {
+                that.visible = false
+            }
+        },
+        // 点击确定，保存
+        handleSubmit: async function() {
+            const data = deepClone(this.chooseDailogData)
+            let res = await editChoices(data)
+            if (res.status === 200) {
+                Message.success('保存成功')
+                this.visible = false
+                this.getLists()
+            }
+        },
+        // 自定义答案区域的校验规则
+        // validatePass: (rule, value, callback) => {
+        //     console.log(value)
+        //     // if (value.length === 0) {
+        //     //   callback(new Error('请设置答案'));
+        //     // } else {
+        //     //   if (this.ruleForm.checkPass !== '') {
+        //     //     this.$refs.ruleForm.validateField('checkPass');
+        //     //   }
+        //     //   callback();
+        //     // }
+        // },
     },
     created() {
         this.getLists()

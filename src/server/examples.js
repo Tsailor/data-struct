@@ -17,3 +17,6 @@ export const getChoiceQuestionLists = params => {
 export const delChoiceQuestion = params => {
     return Request.post('/api/delChoiceQuestion', params)
 }
+export const editChoices = params => {
+    return Request.post('/api/editChoices', params)
+}
