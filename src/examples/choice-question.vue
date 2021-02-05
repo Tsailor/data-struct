@@ -86,7 +86,7 @@
                                 v-model="chooseDailogData.title"
                             ></el-input>
                         </el-form-item>
-                        <el-form-item
+                        <!-- <el-form-item
                             v-for="(option, index) in chooseDailogData.options"
                             :label="'选项' + DIRECTIONARY[option.key]"
                             :key="option.key"
@@ -156,7 +156,7 @@
                                 >
                                 </el-option>
                             </el-select>
-                        </el-form-item>
+                        </el-form-item> -->
                     </el-form>
 
                     <div slot="footer" class="dialog-footer">
@@ -210,7 +210,7 @@ import {
     editChoices,
 } from '../server/examples'
 import { deepClone } from '../utils/util'
-
+import _ from 'underscore'
 export default {
     name: 'ChoiceQuestion',
     data() {
@@ -231,11 +231,22 @@ export default {
             pageData: [],
             visible: false, // 模态框可见标识  点击编辑可见
             activeNames: ['0'], // 默认首个可见
-            chooseDailogData: {}, // 选择题模态框数据
+            chooseDailogData: {
+                title: '',
+                answer: [],
+                single: '',
+                options: [],
+            }, // 选择题模态框数据
 
             isEdit: false, // 点击编辑的时候，里面的表单是否发生改动
             answerRule: [
-                { required: true, validator: validateAnswer, trigger: 'blur' },
+                {
+                    type: 'array',
+                    required: true,
+                    validator: validateAnswer,
+                    trigger: 'blur',
+                    message: '11',
+                },
             ],
 
             // validateAnswer: (rule, value, callback) => {
@@ -258,13 +269,29 @@ export default {
         },
     },
     watch: {
+        // 'chooseDailogData.title': {
+        //     handler(v) {
+        //         console.log(v)
+        //     },
+        // },
         chooseDailogData: {
             handler(newData, oldData) {
+                console.log(newData, oldData)
                 // 首次监听 oldValue 值异常 剔除。
                 if (!oldData.options) {
                     return
                 }
-                this.isEdit = true
+                // id不同，不做比较，剔除。
+                if (newData.questionId !== oldData.questionId) {
+                    return
+                }
+
+                //  两个对象不相同，数据发生了更改  但是有部分数据无法观察到？？？
+                if (!_.isEqual(newData, oldData)) {
+                    console.log('|-----<isEdit>---')
+                    this.isEdit = true
+                }
+
                 // 选择题的选项数目发生变化的时候
                 if (newData.options.length !== oldData.options.length) {
                     // options 里面是否有 k
@@ -276,11 +303,14 @@ export default {
                     this.chooseDailogData.answer = ans
                 }
             },
-            immediate: false,
             deep: true,
+            immediate: false,
         },
         pageData: function(v) {
             console.log('pageData', v)
+        },
+        isEdit: function(v) {
+            console.log('isEdit', v)
         },
     },
     methods: {
@@ -294,9 +324,15 @@ export default {
         // 编辑题目
         handleChooseEdit: function(item) {
             // console.log(item)
-            this.visible = true
-            this.chooseDailogData = deepClone(item) // 选择题模态框数据
+            const _item = deepClone(item)
             this.isEdit = false
+            console.log(this.isEdit) // 选择题模态框数据
+            this.chooseDailogData = Object.assign(
+                {},
+                this.chooseDailogData,
+                _item
+            )
+            this.visible = true
         },
         // 删除题目
         handleChooseDel: function(item) {
@@ -336,15 +372,33 @@ export default {
         // 增加一个选项
         handleAddOption: function() {
             let length = this.chooseDailogData.options.length
-            this.chooseDailogData.options.push({ key: length, value: '' })
+            const op = { key: length, value: '' }
+            this.chooseDailogData = {
+                ...this.chooseDailogData,
+                options: [...this.chooseDailogData.options, op],
+            }
         },
         // 切换答案选择类型（单选/多选）的时候
-        handleChoiceTypeChange: function() {
-            this.chooseDailogData.answer = []
+        handleChoiceTypeChange: function(v) {
+            this.chooseDailogData = {
+                ...this.chooseDailogData,
+                answer: [],
+                single: v,
+            }
+        },
+        //
+        handleTitleChange: function(v) {
+            this.chooseDailogData = {
+                ...this.chooseDailogData,
+                title: v,
+            }
         },
         // 单选时，答案改变时，手动设置answer
         handleSingleChooseChange: function(v) {
-            this.chooseDailogData.answer = [v]
+            this.chooseDailogData = {
+                ...this.chooseDailogData,
+                answer: [v],
+            }
         },
         // 点击编辑后，点击取消
         handleCancel: function() {
