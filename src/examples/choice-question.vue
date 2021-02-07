@@ -86,7 +86,7 @@
                                 v-model="chooseDailogData.title"
                             ></el-input>
                         </el-form-item>
-                        <!-- <el-form-item
+                        <el-form-item
                             v-for="(option, index) in chooseDailogData.options"
                             :label="'选项' + DIRECTIONARY[option.key]"
                             :key="option.key"
@@ -156,7 +156,7 @@
                                 >
                                 </el-option>
                             </el-select>
-                        </el-form-item> -->
+                        </el-form-item>
                     </el-form>
 
                     <div slot="footer" class="dialog-footer">
@@ -217,49 +217,28 @@ export default {
         // 自定义答案的校验暂未实现。
         var validateAnswer = (rule, value, callback) => {
             console.log('value', value)
-            // if (value.length === 0) {
-            callback(new Error('请设置答案'))
-            // } else {
-            //   if (this.ruleForm.checkPass !== '') {
-            //     this.$refs.ruleForm.validateField('checkPass');
-            //   }
-            //  callback()
-            // }
+            if (value.length === 0) {
+                callback(new Error('请设置答案'))
+            } else {
+                callback()
+            }
         }
         return {
             DIRECTIONARY: 'ABCDEFGHIJKLMN',
             pageData: [],
             visible: false, // 模态框可见标识  点击编辑可见
             activeNames: ['0'], // 默认首个可见
-            chooseDailogData: {
-                title: '',
-                answer: [],
-                single: '',
-                options: [],
-            }, // 选择题模态框数据
+            chooseDailogData: {}, // 选择题模态框数据
 
-            isEdit: false, // 点击编辑的时候，里面的表单是否发生改动
+            oldChooseDailogData: {}, // 点击编辑的时候，存一下旧数据，用来比较 变更。
             answerRule: [
                 {
                     type: 'array',
                     required: true,
                     validator: validateAnswer,
-                    trigger: 'blur',
-                    message: '11',
+                    trigger: ['change', 'submit'],
                 },
             ],
-
-            // validateAnswer: (rule, value, callback) => {
-            //     console.log(value)
-            //     // if (value.length === 0) {
-            //     //   callback(new Error('请设置答案'));
-            //     // } else {
-            //     //   if (this.ruleForm.checkPass !== '') {
-            //     //     this.$refs.ruleForm.validateField('checkPass');
-            //     //   }
-            //     //   callback();
-            //     // }
-            // },
         }
     },
     computed: {
@@ -269,14 +248,8 @@ export default {
         },
     },
     watch: {
-        // 'chooseDailogData.title': {
-        //     handler(v) {
-        //         console.log(v)
-        //     },
-        // },
         chooseDailogData: {
             handler(newData, oldData) {
-                console.log(newData, oldData)
                 // 首次监听 oldValue 值异常 剔除。
                 if (!oldData.options) {
                     return
@@ -284,12 +257,6 @@ export default {
                 // id不同，不做比较，剔除。
                 if (newData.questionId !== oldData.questionId) {
                     return
-                }
-
-                //  两个对象不相同，数据发生了更改  但是有部分数据无法观察到？？？
-                if (!_.isEqual(newData, oldData)) {
-                    console.log('|-----<isEdit>---')
-                    this.isEdit = true
                 }
 
                 // 选择题的选项数目发生变化的时候
@@ -306,35 +273,24 @@ export default {
             deep: true,
             immediate: false,
         },
-        pageData: function(v) {
-            console.log('pageData', v)
-        },
-        isEdit: function(v) {
-            console.log('isEdit', v)
-        },
     },
     methods: {
         getLists: async function(params) {
             const res = await getChoiceQuestionLists(params)
-            console.log('getChoiceQuestionLists', res)
+
             if (res.status === 200) {
                 this.pageData = res.data.data
             }
         },
-        // 编辑题目
+        // 点击 编辑
         handleChooseEdit: function(item) {
             // console.log(item)
-            const _item = deepClone(item)
-            this.isEdit = false
-            console.log(this.isEdit) // 选择题模态框数据
-            this.chooseDailogData = Object.assign(
-                {},
-                this.chooseDailogData,
-                _item
-            )
+
+            this.oldChooseDailogData = deepClone(item) // 选择题模态框数据 旧数据
+            this.chooseDailogData = deepClone(item)
             this.visible = true
         },
-        // 删除题目
+        // 点击 删除
         handleChooseDel: function(item) {
             const that = this
             MessageBox({
@@ -385,14 +341,9 @@ export default {
                 answer: [],
                 single: v,
             }
+            console.log('chooseDailogData', this.chooseDailogData)
         },
-        //
-        handleTitleChange: function(v) {
-            this.chooseDailogData = {
-                ...this.chooseDailogData,
-                title: v,
-            }
-        },
+
         // 单选时，答案改变时，手动设置answer
         handleSingleChooseChange: function(v) {
             this.chooseDailogData = {
@@ -403,7 +354,11 @@ export default {
         // 点击编辑后，点击取消
         handleCancel: function() {
             const that = this
-            if (this.isEdit) {
+            const hasEdit = !_.isEqual(
+                this.oldChooseDailogData,
+                this.chooseDailogData
+            )
+            if (hasEdit) {
                 MessageBox({
                     title: '提示',
                     message: '此次编辑尚未保存，确认离开?',
@@ -421,27 +376,19 @@ export default {
             }
         },
         // 点击确定，保存
-        handleSubmit: async function() {
-            const data = deepClone(this.chooseDailogData)
-            let res = await editChoices(data)
-            if (res.status === 200) {
-                Message.success('保存成功')
-                this.visible = false
-                this.getLists()
-            }
+        handleSubmit: function() {
+            this.$refs['chooseDailogData'].validate(async valid => {
+                if (valid) {
+                    const data = deepClone(this.chooseDailogData)
+                    let res = await editChoices(data)
+                    if (res.status === 200) {
+                        Message.success('保存成功')
+                        this.visible = false
+                        this.getLists()
+                    }
+                }
+            })
         },
-        // 自定义答案区域的校验规则
-        // validatePass: (rule, value, callback) => {
-        //     console.log(value)
-        //     // if (value.length === 0) {
-        //     //   callback(new Error('请设置答案'));
-        //     // } else {
-        //     //   if (this.ruleForm.checkPass !== '') {
-        //     //     this.$refs.ruleForm.validateField('checkPass');
-        //     //   }
-        //     //   callback();
-        //     // }
-        // },
     },
     created() {
         this.getLists()
