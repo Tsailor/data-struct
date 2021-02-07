@@ -1,8 +1,9 @@
 <template>
     <div id="app">
-        <keep-alive>
-            <router-view></router-view>
-        </keep-alive>
+        <router-view name="nav"></router-view>
+        <router-view></router-view>
+
+        <div>我是footer</div>
         <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
     </div>
 </template>
@@ -25,6 +26,5 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    margin-top: 60px;
 }
 </style>
