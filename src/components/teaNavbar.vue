@@ -6,7 +6,7 @@
             :default-active="activeIndex"
             mode="horizontal"
         >
-            <el-menu-item index="/home">
+            <el-menu-item index="/admin">
                 <template slot="title">
                     <img
                         id="logo"
@@ -15,40 +15,14 @@
                     />
                 </template>
             </el-menu-item>
-            <el-menu-item index="/home">
-                <template slot="title">
-                    <i class="el-icon-s-home"></i>
-                    <span>首页</span>
-                    <!-- <router-link to="home">首页</router-link> -->
-                </template>
-            </el-menu-item>
-            <el-menu-item index="/question">
-                <template slot="title">
-                    <i class="el-icon-edit-outline"></i>
-                    <span>题库</span>
-                </template>
-            </el-menu-item>
-            <el-menu-item index="/discuss">
-                <template slot="title">
-                    <i class="el-icon-chat-line-square"></i>
-                    <span>讨论区</span>
-                </template>
-            </el-menu-item>
+
             <el-menu-item class="le" @click="GoCenter">
-                <!-- <template slot="title">
-          <el-avatar
-            size="medium"
-            src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
-          ></el-avatar>
-        
-        </template> -->
                 <template slot="title">
                     <el-popover
                         placement="bottom-start"
                         width="200"
                         trigger="hover"
                     >
-                        <!-- <el-button slot="reference" v-popover:popover>focus 激活</el-button> -->
                         <ul v-if="isLogined">
                             <li>个人中心</li>
                             <li @click="loginOut">退出登录</li>
@@ -63,7 +37,6 @@
                             v-popover:popover
                         ></el-avatar>
                     </el-popover>
-                    <!-- <el-button v-popover:popover>focus 激活</el-button> -->
                 </template>
             </el-menu-item>
             <el-menu-item class="ri" index="NewsCenter">
@@ -77,7 +50,7 @@
 <script>
 // import local from "../../../utils/local";
 export default {
-    name: 'Navbar',
+    name: 'TeaNavbar',
     data() {
         return {
             activeIndex: '1',

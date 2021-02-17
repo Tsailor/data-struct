@@ -19,6 +19,11 @@ import {
     Form,
     FormItem,
     Switch,
+    Menu,
+    MenuItem,
+    Avatar,
+    Popover,
+    Submenu,
 } from 'element-ui'
 import './config/config'
 
@@ -41,6 +46,11 @@ Vue.use(Dialog)
 Vue.use(Form)
 Vue.use(FormItem)
 Vue.use(Switch)
+Vue.use(Menu)
+Vue.use(MenuItem)
+Vue.use(Avatar)
+Vue.use(Popover)
+Vue.use(Submenu)
 new Vue({
     router,
     render: h => h(App),

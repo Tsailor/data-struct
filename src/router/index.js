@@ -1,24 +1,27 @@
-import Helloworld from '../components/helloworld'
+import HelloWorld from '../components/helloworld'
 import Navbar from '../components/navbar'
 import ExHome from '../examples/home'
 import Index from '../examples/index'
 import AvatarUpload from '../examples/avatar-upload'
 import Search from '../examples/search'
 import ChoiceQuestion from '../examples/choice-question'
+
+/* 正式内容 */
 import VueRouter from 'vue-router'
+import teaIndex from './teaIndex'
 export const routes = [
     {
         path: '/',
         components: {
             nav: Navbar,
-            default: Helloworld,
+            default: HelloWorld,
         },
     },
     {
         path: '/examples',
         // component: Index,
         components: {
-            nav: Navbar,
+            // nav: Navbar,
             default: Index,
         },
         redirect: '/examples/index',
@@ -45,8 +48,10 @@ export const routes = [
         path: '/avatarUpload',
         component: AvatarUpload,
     },
+    ...teaIndex,
 ]
 const router = new VueRouter({
     routes,
+    linkExactActiveClass: 'active', // 精确匹配
 })
 export default router
