@@ -9,6 +9,7 @@ import ChoiceQuestion from '../examples/choice-question'
 /* 正式内容 */
 import VueRouter from 'vue-router'
 import teaIndex from './teaIndex'
+import TLogin from 'comViews/tlogin'
 export const routes = [
     {
         path: '/',
@@ -45,8 +46,8 @@ export const routes = [
         ],
     },
     {
-        path: '/avatarUpload',
-        component: AvatarUpload,
+        path: '/adminlogin',
+        component: TLogin,
     },
     ...teaIndex,
 ]

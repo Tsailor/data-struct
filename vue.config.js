@@ -13,6 +13,7 @@ module.exports = {
                 network: '@/network',
                 router: '@/assets',
                 views: '@/views',
+                comViews: '@/comViews',
                 // 'img':'@/assets/img'
             },
         },

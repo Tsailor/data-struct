@@ -4,9 +4,9 @@
             <el-col
                 :xs="{ span: 24 }"
                 :sm="{ span: 20, offset: 2 }"
-                :md="{ span: 4 }"
-                :lg="{ span: 4 }"
-                :xl="{ span: 3 }"
+                :md="{ span: 4, offset: 2 }"
+                :lg="{ span: 4, offset: 2 }"
+                :xl="{ span: 3, offset: 2 }"
             >
                 <TeaMenu />
                 <!-- <router-view name="menu"></router-view> -->
@@ -14,11 +14,11 @@
             <el-col
                 :xs="{ span: 24 }"
                 :sm="{ span: 24 }"
-                :md="{ span: 20 }"
-                :lg="{ span: 20 }"
-                :xl="{ span: 21 }"
+                :md="{ span: 18 }"
+                :lg="{ span: 18 }"
+                :xl="{ span: 17 }"
             >
-                <router-view></router-view>
+                <router-view style="background:red"></router-view>
             </el-col>
         </el-row>
     </div>

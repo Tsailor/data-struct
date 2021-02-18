@@ -1,11 +1,6 @@
 <template>
     <div id="navbar">
-        <el-menu
-            router
-            id="nav"
-            :default-active="activeIndex"
-            mode="horizontal"
-        >
+        <el-menu router id="nav" mode="horizontal">
             <el-menu-item index="/admin">
                 <template slot="title">
                     <img
@@ -20,14 +15,14 @@
                 <template slot="title">
                     <el-popover
                         placement="bottom-start"
-                        width="200"
                         trigger="hover"
+                        popper-class="pop-person"
                     >
-                        <ul v-if="isLogined">
+                        <ul class="pop-person-ul" v-if="isLogined">
                             <li>个人中心</li>
                             <li @click="loginOut">退出登录</li>
                         </ul>
-                        <ul v-else>
+                        <ul class="pop-person-ul" v-else>
                             <li @click="goToLogin">去登录</li>
                         </ul>
                         <el-avatar
@@ -116,6 +111,22 @@ export default {
         .el-icon-bell {
             font-size: 23px;
         }
+    }
+}
+</style>
+<style lang="less">
+.pop-person {
+    padding: 0;
+    .pop-person-ul {
+        list-style: none;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+    .pop-person-ul li {
+        cursor: pointer;
+        padding: 10px;
+        box-sizing: border-box;
     }
 }
 </style>
