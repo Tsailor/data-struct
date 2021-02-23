@@ -18,19 +18,24 @@
                 :lg="{ span: 18 }"
                 :xl="{ span: 17 }"
             >
-                <router-view style="background:red"></router-view>
+                <router-view :key="_key"></router-view>
             </el-col>
         </el-row>
     </div>
 </template>
 <script>
-import TeaMenu from 'components/teaMenu'
+import TeaMenu from 'teaComponents/teaMenu'
 export default {
     name: 'AdminIndex',
     methods: {},
     mounted() {},
     components: {
         TeaMenu,
+    },
+    computed: {
+        _key: function() {
+            return this.$route.fullPath
+        },
     },
 }
 </script>

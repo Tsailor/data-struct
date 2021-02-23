@@ -9,7 +9,8 @@ import ChoiceQuestion from '../examples/choice-question'
 /* 正式内容 */
 import VueRouter from 'vue-router'
 import teaIndex from './teaIndex'
-import TLogin from 'comViews/tlogin'
+import AdminLogin from 'comViews/adminLogin'
+import { isLogined } from 'utils/util'
 export const routes = [
     {
         path: '/',
@@ -47,7 +48,7 @@ export const routes = [
     },
     {
         path: '/adminlogin',
-        component: TLogin,
+        component: AdminLogin,
     },
     ...teaIndex,
 ]
@@ -55,4 +56,21 @@ const router = new VueRouter({
     routes,
     linkExactActiveClass: 'active', // 精确匹配
 })
+
+//判断一下有没有教师token 没有得话强制跳登录页
+router.beforeEach((to, from, next) => {
+    const adminPath = ['/admin', '/admin/index', '/admin/test', '/admin/class']
+
+    if (adminPath.includes(to.path)) {
+        if (isLogined()) {
+            next() //放行
+        } else {
+            console.log('重定向到登录')
+            next('/adminlogin') //重置到登录
+        }
+    } else {
+        next() //放行
+    }
+})
+
 export default router

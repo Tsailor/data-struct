@@ -24,6 +24,9 @@ import {
     Avatar,
     Popover,
     Submenu,
+    Card,
+    Tooltip,
+    ButtonGroup,
 } from 'element-ui'
 import './config/config'
 
@@ -51,6 +54,9 @@ Vue.use(MenuItem)
 Vue.use(Avatar)
 Vue.use(Popover)
 Vue.use(Submenu)
+Vue.use(Card)
+Vue.use(Tooltip)
+Vue.use(ButtonGroup)
 new Vue({
     router,
     render: h => h(App),

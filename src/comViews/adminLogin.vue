@@ -45,6 +45,7 @@
                         >
                             <el-input
                                 v-model="loginForm.username"
+                                placeholder="密码：数字9开头的任意字符串"
                                 style="width:90%"
                             ></el-input>
                         </el-form-item>
@@ -62,6 +63,7 @@
                         >
                             <el-input
                                 style="width:90%"
+                                placeholder="密码：数字9开头的任意字符串"
                                 v-model="loginForm.password"
                             ></el-input>
                         </el-form-item>
@@ -83,12 +85,37 @@
     </div>
 </template>
 <script>
+import local from 'utils/local.js'
+import { adminLogin } from 'server/teacher.js'
+import { Message } from 'element-ui'
 export default {
-    name: 'TLogin',
+    name: 'AdminLogin',
     data() {
         return {
-            loginForm: {},
+            loginForm: {
+                username: '',
+                password: '',
+            },
         }
+    },
+    methods: {
+        submitForm: function(refsName) {
+            this.$refs[refsName].validate(async valid => {
+                if (valid) {
+                    let res = await adminLogin(this.loginForm)
+                    if (res.status === 200) {
+                        console.log('login', res)
+                        const { token } = res.data
+                        local.clearSession()
+                        local.setSessionVal('userinfo', res.data)
+                        local.setSessionVal('token', token)
+                        this.$router.replace('/admin')
+                    } else {
+                        Message({ message: res.desc, type: 'error' })
+                    }
+                }
+            })
+        },
     },
 }
 </script>

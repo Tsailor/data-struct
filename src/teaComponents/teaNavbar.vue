@@ -27,7 +27,7 @@
                         </ul>
                         <el-avatar
                             size="medium"
-                            src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+                            :src="avatar"
                             slot="reference"
                             v-popover:popover
                         ></el-avatar>
@@ -43,43 +43,34 @@
     </div>
 </template>
 <script>
-// import local from "../../../utils/local";
+import { isLogined } from 'utils/util'
+import local from 'utils/local'
 export default {
     name: 'TeaNavbar',
     data() {
         return {
             activeIndex: '1',
-            isLogined: false,
+            //  isLogined: false,
         }
     },
     computed: {
-        // isLogined: function() {
-        //   return !!local.getSessionVal("token");
-        // },
+        isLogined: () => isLogined(),
+        userInfo: () => local.getSessionVal('userinfo'),
+        avatar: function() {
+            return (
+                this.userInfo.avatar ||
+                'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
+            )
+        },
     },
 
     methods: {
-        goToLogin: function() {
-            // 发现问题：教师端要有一个登录入口（）
-            // 根据当前路由信息，选择跳学生端还是教师端
-            console.log('去登陆')
-            /*this.$route.path获取当前路由地址*/
-            //   let routArrs = this.$route.path.substring(1).split("/");
-            //   console.log(routArrs);
-            //   if (routArrs[0] !== "admin") {
-            //     this.$router.push("/sign");
-            //   } else {
-            //     // 教师登录
-            //     this.$router.push("/register");
-            //     // 设计的不合理的地方就出来了，点击学生登录，再点击教师登录 登录完后自动跳到上一页，结果跳到了学生登录页？？？
-            //   }
-        },
+        goToLogin: function() {},
 
         // 退出登录
         loginOut: function() {
-            //   local.removeSessionVal("token")
-            //  // local.clearSession(); // 清除sessionStorage就能退出来了；
-            //   window.location.replace("/")
+            local.clearSession() // 清除sessionStorage就能退出来了；
+            this.$router.replace('/adminlogin')
         },
         GoCenter: function() {
             //    if(this.isLogined){
@@ -111,12 +102,19 @@ export default {
         .el-icon-bell {
             font-size: 23px;
         }
+        .el-avatar > img {
+            width: 100%;
+        }
     }
 }
 </style>
 <style lang="less">
+.el-avatar > img {
+    width: 100%;
+}
 .pop-person {
     padding: 0;
+
     .pop-person-ul {
         list-style: none;
         text-align: center;

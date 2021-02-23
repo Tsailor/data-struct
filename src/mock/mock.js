@@ -14,6 +14,7 @@ const {
     delChoiceQuestion,
     editChoices,
 } = require('./examples')
+
 // search
 Mock.mock('/api/questionData', 'get', questionData)
 
@@ -23,3 +24,17 @@ Mock.mock('/api/delChoiceQuestion', 'post', options =>
     delChoiceQuestion(options)
 )
 Mock.mock('/api/editChoices', 'post', options => editChoices(options))
+
+/************************************************/
+// For teacher Terminal
+const {
+    adminLogin,
+    getIndexData,
+    getAllclasslists,
+    addClass,
+} = require('./teacher.js')
+
+Mock.mock('/api/adminlogin', 'post', options => adminLogin(options)) // 教师端登录
+Mock.mock('/api/indexData', 'get', options => getIndexData(options)) // 教师端主页数据
+Mock.mock('/api/allclasslists', 'get', options => getAllclasslists(options)) // 教师端主页数据
+Mock.mock('/api/addclass', 'post', options => addClass(options)) // addClass

@@ -13,6 +13,7 @@ const questionData = function() {
         questions.push(quesObject)
     }
     return {
+        status: 200,
         data: questions,
     }
 }
@@ -68,6 +69,7 @@ var lists = [
 // 查询所有选择题的数据
 const choiceQuestionLists = function() {
     return {
+        status: 200,
         data: lists,
     }
 }
@@ -75,14 +77,20 @@ const choiceQuestionLists = function() {
 const delChoiceQuestion = function(options) {
     const { questionId } = JSON.parse(options.body)
     lists = lists.filter(item => item.questionId !== questionId)
-    return {}
+    return {
+        status: 200,
+        desc: '删除成功',
+    }
 }
 // 编辑题目
 const editChoices = function(options) {
     let data = JSON.parse(options.body)
     data = { ...data, answer: data.answer.sort((a, b) => a - b) }
     lists = lists.map(v => (v.questionId === data.questionId ? data : v))
-    return {}
+    return {
+        status: 200,
+        desc: '成功',
+    }
 }
 module.exports = {
     questionData,

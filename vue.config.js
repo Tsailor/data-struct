@@ -6,13 +6,13 @@ module.exports = {
             //配置别名 这里配置了别名
             alias: {
                 //   '@':'src' 默认配置的别名
-                api: '@/api',
-                assets: '@/assets',
-                common: '@/common',
+                server: '@/server',
+                // assets: '@/assets',
+                utils: '@/utils',
                 components: '@/components',
-                network: '@/network',
-                router: '@/assets',
-                views: '@/views',
+                teaComponents: '@/teaComponents',
+                router: '@/router',
+                tViews: '@/tViews',
                 comViews: '@/comViews',
                 // 'img':'@/assets/img'
             },

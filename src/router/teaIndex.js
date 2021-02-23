@@ -1,8 +1,9 @@
-import TeaNavbar from '../components/teaNavbar'
-import TeaMenu from '../components/teaMenu'
-import AdminIndex from '../tViews/adminIndex'
-import AdminHome from '../tViews/adminHome'
-import AdminTest from '../tViews/adminTest'
+import TeaNavbar from 'teaComponents/teaNavbar'
+import TeaMenu from 'teaComponents/teaMenu'
+import AdminIndex from 'tViews/adminIndex'
+import AdminHome from 'tViews/adminHome'
+import AdminTest from 'tViews/adminTest'
+import AdminClass from 'tViews/adminClass'
 const teaIndex = [
     {
         path: '/admin',
@@ -27,6 +28,14 @@ const teaIndex = [
                     default: AdminTest,
                     menu: TeaMenu,
                 },
+            },
+            {
+                path: 'class',
+                components: {
+                    default: AdminClass,
+                    menu: TeaMenu,
+                },
+                props: { default: true, menu: false },
             },
         ],
     },
