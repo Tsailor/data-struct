@@ -21,7 +21,7 @@
                     :lg="{ span: 24 }"
                     :xl="{ span: 24 }"
                 >
-                    <el-menu-item index="/admin/adminhome">
+                    <el-menu-item index="/admin/test">
                         <i class="el-icon-notebook-2"></i>
                         <span slot="title">课程信息</span>
                     </el-menu-item>
@@ -70,7 +70,7 @@
                     :lg="{ span: 24 }"
                     :xl="{ span: 24 }"
                 >
-                    <el-menu-item index="/admin/test">
+                    <el-menu-item index="/admin/questions">
                         <i class="el-icon-folder-opened"></i>
                         <span slot="title">题库</span>
                     </el-menu-item>
