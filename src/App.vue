@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <router-view name="nav"></router-view>
+        <router-view name="nav" class="nav"></router-view>
         <router-view class="body"> </router-view>
 
         <Footer></Footer>
@@ -10,13 +10,13 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import Footer from './components/footer'
+import Footer from './components/footer';
 export default {
     name: 'App',
     components: {
         Footer,
     },
-}
+};
 </script>
 
 <style>
@@ -38,7 +38,13 @@ body {
     height: 100%;
     flex-direction: column;
 }
+.nav {
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+}
 .body {
     flex: 1;
+    margin-top: 61px;
 }
 </style>

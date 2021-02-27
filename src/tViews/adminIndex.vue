@@ -3,20 +3,20 @@
         <el-row>
             <el-col
                 :xs="{ span: 24 }"
-                :sm="{ span: 20, offset: 2 }"
-                :md="{ span: 4, offset: 2 }"
-                :lg="{ span: 4, offset: 2 }"
-                :xl="{ span: 3, offset: 2 }"
+                :sm="{ span: 4 }"
+                :md="{ span: 4 }"
+                :lg="{ span: 3 }"
+                :xl="{ span: 2 }"
             >
                 <TeaMenu />
                 <!-- <router-view name="menu"></router-view> -->
             </el-col>
             <el-col
                 :xs="{ span: 24 }"
-                :sm="{ span: 24 }"
-                :md="{ span: 18 }"
-                :lg="{ span: 18 }"
-                :xl="{ span: 17 }"
+                :sm="{ span: 20 }"
+                :md="{ span: 20 }"
+                :lg="{ span: 21 }"
+                :xl="{ span: 22 }"
             >
                 <router-view :key="_key"></router-view>
             </el-col>
@@ -24,7 +24,7 @@
     </div>
 </template>
 <script>
-import TeaMenu from 'teaComponents/teaMenu'
+import TeaMenu from 'teaComponents/teaMenu';
 export default {
     name: 'AdminIndex',
     methods: {},
@@ -34,9 +34,10 @@ export default {
     },
     computed: {
         _key: function() {
-            return this.$route.fullPath
+            console.log(this.$route);
+            return this.$route.fullPath;
         },
     },
-}
+};
 </script>
 <style lang="less"></style>

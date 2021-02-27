@@ -4,7 +4,7 @@
             <el-row>
                 <el-col
                     :xs="{ span: 4 }"
-                    :sm="{ span: 4 }"
+                    :sm="{ span: 24 }"
                     :md="{ span: 24 }"
                     :lg="{ span: 24 }"
                     :xl="{ span: 24 }"
@@ -16,7 +16,7 @@
                 </el-col>
                 <el-col
                     :xs="{ span: 6 }"
-                    :sm="{ span: 6 }"
+                    :sm="{ span: 24 }"
                     :md="{ span: 24 }"
                     :lg="{ span: 24 }"
                     :xl="{ span: 24 }"
@@ -28,7 +28,7 @@
                 </el-col>
                 <el-col
                     :xs="{ span: 4 }"
-                    :sm="{ span: 4 }"
+                    :sm="{ span: 24 }"
                     :md="{ span: 24 }"
                     :lg="{ span: 24 }"
                     :xl="{ span: 24 }"
@@ -40,7 +40,7 @@
                 </el-col>
                 <el-col
                     :xs="{ span: 6 }"
-                    :sm="{ span: 6 }"
+                    :sm="{ span: 24 }"
                     :md="{ span: 24 }"
                     :lg="{ span: 24 }"
                     :xl="{ span: 24 }"
@@ -65,7 +65,7 @@
                 </el-col>
                 <el-col
                     :xs="{ span: 4 }"
-                    :sm="{ span: 4 }"
+                    :sm="{ span: 24 }"
                     :md="{ span: 24 }"
                     :lg="{ span: 24 }"
                     :xl="{ span: 24 }"
@@ -84,26 +84,26 @@
 export default {
     name: 'TeaMenu',
     data() {
-        return {}
+        return {};
     },
 
     computed: {
         mode: function() {
-            return document.documentElement.scrollWidth > 750
+            return document.documentElement.scrollWidth >= 768
                 ? 'vertical'
-                : 'horizontal'
+                : 'horizontal';
         },
         acticeIndex: function() {
-            let { path } = this.$route
-            return path
+            let { path } = this.$route;
+            return path;
         },
     },
     methods: {},
     mounted() {
-        console.log(this.$route)
+        console.log(this.$route);
     },
     components: {},
-}
+};
 </script>
 
 <style lang="less">
