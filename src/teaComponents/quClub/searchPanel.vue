@@ -1,12 +1,12 @@
 <template>
-    <el-row class="searchpanel" :gutter="30">
+    <el-row class="searchpanel">
         <el-form
             :model="curSearchForm"
             ref="curSearchForm"
-            label-width="80px"
-            class="demo-ruleForm"
+            label-width="100px"
             size="mini"
             label-suffix=":"
+            class="searchpanel-form"
         >
             <el-col
                 :xs="{ span: 24 }"
@@ -15,23 +15,40 @@
                 v-for="(item, index) in searchForm"
                 :key="index"
             >
-                <el-form-item
-                    :label="item.label"
-                    :prop="curSearchForm[item.value]"
-                >
-                    <el-select
-                        placeholder="请选择活动区域"
+                <el-form-item :label="item.label" :prop="item.value">
+                    <el-input
+                        v-if="item.type === 'input'"
+                        placeholder="请输入"
                         v-model="curSearchForm[item.value]"
+                        class="form-item"
+                    ></el-input>
+                    <el-select
+                        v-if="item.type === 'select'"
+                        :clearable="true"
+                        placeholder="请选择"
+                        v-model="curSearchForm[item.value]"
+                        class="form-item"
                     >
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
+                        <el-option
+                            v-for="(ops, ins) in item.optionsLists"
+                            :key="ins"
+                            :label="ops.text"
+                            :value="ops.value"
+                        ></el-option>
                     </el-select>
                 </el-form-item>
             </el-col>
-            <el-col :xs="{ span: 24 }" :sm="{ span: 12 }" :md="{ span: 8 }">
+            <el-col
+                :xs="{ span: 24 }"
+                :sm="{ span: 12 }"
+                :md="{ span: 8 }"
+                :lg="{ span: 8 }"
+            >
                 <el-form-item>
-                    <el-button @click="resetForm('ruleForm')">重置</el-button>
-                    <el-button type="primary" @click="submitForm('ruleForm')"
+                    <el-button @click="resetForm('curSearchForm')"
+                        >重置</el-button
+                    >
+                    <el-button type="primary" @click="submitForm()"
                         >查询</el-button
                     >
                 </el-form-item>
@@ -43,25 +60,11 @@
 export default {
     props: {
         searchForm: Array,
-        resetFun: Function,
+        // resetFun: Function,
         submitFun: Function,
     },
     name: 'SearchPanel',
-    computed: {
-        // curSearchForm: () => [...this.searchForm],
-        // curSearchForm: {
-        //     get: function() {
-        //         const da = this.searchForm.reduce((init, item) => {
-        //             init[item.value] = '';
-        //             return init;
-        //         }, {});
-        //         return da;
-        //     },
-        //     set: function(value) {
-        //         console.log('value', value);
-        //     },
-        // },
-    },
+    computed: {},
     data() {
         return {
             curSearchForm: this.searchForm.reduce((init, item) => {
@@ -71,19 +74,41 @@ export default {
         };
     },
     methods: {
-        resetForm: function() {},
-        submitForm: function() {},
+        resetForm: function(formName) {
+            this.$refs[formName].resetFields();
+        },
+        submitForm: function() {
+            this.submitFun({ ...this.curSearchForm });
+        },
     },
-    created() {
-        console.log('searchForm', this.searchForm);
-        console.log('curSearchForm', this.curSearchForm);
-        this.submitFun(this.curSearchForm);
-    },
+    created() {},
 };
 </script>
 <style lang="less" scoped>
 .searchpanel {
+    width: 100%;
     padding: 30px;
+    padding-bottom: 0;
     box-sizing: border-box;
+    .form-item {
+        width: 100%;
+    }
+    @media only screen and (min-width: 1200px) {
+        .searchpanel-form {
+            width: 90%;
+        }
+    }
+    @media only screen and (min-width: 1500px) {
+        .searchpanel-form {
+            width: 80%;
+        }
+    }
+}
+</style>
+<style lang="less">
+.searchpanel {
+    .el-form-item__content {
+        text-align: left;
+    }
 }
 </style>

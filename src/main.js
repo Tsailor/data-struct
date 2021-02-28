@@ -31,6 +31,8 @@ import {
     Tabs,
     TabPane,
     Tag,
+    Table,
+    TableColumn,
 } from 'element-ui';
 import './config/config';
 
@@ -65,6 +67,8 @@ Vue.use(Tree);
 Vue.use(Tabs);
 Vue.use(TabPane);
 Vue.use(Tag);
+Vue.use(Table);
+Vue.use(TableColumn);
 new Vue({
     router,
     render: h => h(App),

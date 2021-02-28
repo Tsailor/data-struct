@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-row>
+        <el-row style="height:100%">
             <el-col
                 :xs="{ span: 24 }"
                 :sm="{ span: 4 }"

@@ -21,39 +21,31 @@ const teaIndex = [
                 path: 'index',
                 components: {
                     default: AdminHome,
-                    //menu: TeaMenu,
                 },
             },
             {
                 path: 'test',
                 components: {
                     default: AdminTest,
-                    // menu: TeaMenu,
                 },
             },
             {
                 path: 'class',
                 components: {
                     default: AdminClass,
-                    //menu: TeaMenu,
                 },
-                // props: { default: true, menu: false },
             },
             {
                 path: 'questions',
                 components: {
                     default: AdminQuestions,
-                    //menu: TeaMenu,
                 },
-                // props: { default: true, menu: false }, statistics
             },
             {
                 path: 'statistics',
                 components: {
                     default: AdminStatistics,
-                    //menu: TeaMenu,
                 },
-                // props: { default: true, menu: false }, statistics
             },
         ],
     },

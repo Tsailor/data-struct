@@ -1,23 +1,37 @@
 <template>
     <div>
-        <SearchPanel
-            :searchForm="selectParams"
-            :submitFun="v => submitSearch(v)"
-        />
+        <SearchPanel :searchForm="selectParams" :submitFun="submitSearch" />
+        <ButtonPanel :btnGroup="btnGroup" />
+        <DTablePanel />
     </div>
 </template>
 <script>
 import SearchPanel from 'teaComponents/quClub/searchPanel.vue';
+import ButtonPanel from 'teaComponents/quClub/buttonPanel.vue';
+import DTablePanel from 'teaComponents/quClub/dtablePanel.vue';
+
+const quLists = [
+    { text: '选择题', value: 0 },
+    { text: '填空题', value: 1 },
+    { text: '判断题', value: 2 },
+    { text: '简答题', value: 3 },
+];
 export default {
     name: 'AdminQuestions',
     data() {
         return {
-            selectParams: [
-                { label: '关键字', value: 'keywords', type: 'input' },
-                { label: '归属章', value: 'captial', type: 'input' },
-                { label: '归属节', value: 'selector', type: 'input' },
-                { label: '题型', value: 'type', type: 'input' },
-                { label: '状态', value: 'status', type: 'input' },
+            chapterLists: [
+                { text: '线性表', value: 0 },
+                { text: '栈和队列', value: 1 },
+                { text: '树', value: 2 },
+            ],
+            sectionLists: [],
+            btnGroup: [
+                {
+                    type: '',
+                    label: '添加试题',
+                    fun: this.handleAddClass,
+                },
             ],
         };
     },
@@ -25,10 +39,49 @@ export default {
         submitSearch(params) {
             console.log('params', params);
         },
+        handleAddClass() {
+            alert('add click');
+        },
     },
     mounted() {},
+    computed: {
+        selectParams: function() {
+            return [
+                { label: '关键字', value: 'keywords', type: 'input' },
+                {
+                    label: '归属章',
+                    value: 'chapter',
+                    type: 'select',
+                    optionsLists: this.chapterLists,
+                },
+                {
+                    label: '归属节',
+                    value: 'section',
+                    type: 'select',
+                    optionsLists: this.sectionLists,
+                },
+                {
+                    label: '题型',
+                    value: 'type',
+                    type: 'select',
+                    optionsLists: quLists,
+                },
+                {
+                    label: '状态',
+                    value: 'status',
+                    type: 'select',
+                    optionsLists: [
+                        { text: '已发布', value: 0 },
+                        { text: '未发布', value: 1 },
+                    ],
+                },
+            ];
+        },
+    },
     components: {
         SearchPanel,
+        ButtonPanel,
+        DTablePanel,
     },
 };
 </script>
