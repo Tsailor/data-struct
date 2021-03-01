@@ -9,12 +9,13 @@
         <!-- <router-link to="/home">Home</router-link> -->
     </div>
 </template>
-<style>
+<style lang="less" scoped>
 .container {
     text-align: left;
     margin: 10px 30px;
 }
 </style>
+
 <script>
 import { routes } from '../router/index'
 

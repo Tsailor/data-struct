@@ -279,7 +279,7 @@ export default {
             const res = await getChoiceQuestionLists(params)
 
             if (res.status === 200) {
-                this.pageData = res.data.data
+                this.pageData = res.data
             }
         },
         // 点击 编辑
