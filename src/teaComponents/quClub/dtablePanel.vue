@@ -8,68 +8,39 @@
         >
             <el-table-column type="expand">
                 <template slot-scope="props">
-                    <span>{{ props.row.name }}</span>
+                    <ChoiceDesc
+                        v-if="props.row.typeId === 1"
+                        :record="props.row"
+                    />
+                    <span v-else>{{ props.row.name }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="编号" prop="id" width="80%">
-            </el-table-column>
-            <el-table-column label="题目" prop="name" width="360%">
-            </el-table-column>
             <el-table-column
-                label="章"
-                prop="capter"
-                class-name="datableColumn"
-            >
-            </el-table-column>
+                label="编号"
+                prop="id"
+                width="80%"
+            ></el-table-column>
             <el-table-column
-                label="节"
-                prop="section"
-                class-name="datableColumn"
-            >
-            </el-table-column>
-            <el-table-column
-                label="题型"
-                prop="type"
-                class-name="datableColumn"
-            >
-            </el-table-column>
-            <el-table-column
-                label="来源"
-                prop="creator"
-                class-name="datableColumn"
-            >
-            </el-table-column>
+                label="题目"
+                prop="name"
+                width="360%"
+            ></el-table-column>
+            <el-table-column label="章" prop="capter"></el-table-column>
+            <el-table-column label="节" prop="section"></el-table-column>
+            <el-table-column label="题型" prop="type"></el-table-column>
+            <el-table-column label="来源" prop="creator"></el-table-column>
             <el-table-column
                 label="时间"
                 prop="createDate"
-                class-name="datableColumn"
                 width="125%"
-            >
-            </el-table-column>
-            <el-table-column
-                label="状态"
-                prop="statusDesc"
-                class-name="datableColumn"
-            >
-            </el-table-column>
-            <el-table-column
-                label="操作"
-                class-name="datableColumn"
-                width="200%"
-            >
+            ></el-table-column>
+            <el-table-column label="状态" prop="statusDesc"></el-table-column>
+            <el-table-column label="操作" width="200%">
                 <template slot-scope="scope">
-                    <el-button type="text" size="mini">
-                        收纳
-                    </el-button>
-                    <el-button type="text" size="mini">
-                        编辑
-                    </el-button>
-                    <el-button type="text" size="mini">
-                        发布
-                    </el-button>
-                    <el-button type="text" size="mini">
-                        移除
-                    </el-button>
+                    <el-button type="text" size="mini">收纳</el-button>
+                    <el-button type="text" size="mini">编辑</el-button>
+                    <el-button type="text" size="mini">发布</el-button>
+                    <el-button type="text" size="mini">移除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -77,12 +48,6 @@
 </template>
 
 <style lang="less">
-.datableColumn {
-}
-.datableColumn-mini {
-}
-.datableColumn-title {
-}
 .demo-table-expand {
     font-size: 0;
 }
@@ -103,6 +68,7 @@
 </style>
 
 <script>
+import ChoiceDesc from 'teaComponents/quClub/choiceDesc';
 export default {
     name: 'DTablePanel',
     computed: {
@@ -124,6 +90,28 @@ export default {
             tableData: [
                 {
                     id: '87122',
+                    name: '下列属于社会主义核心价值观的是？',
+                    capterId: 3,
+                    capter: '线性表',
+                    section: '第1节 结构',
+                    status: 0,
+                    statusDesc: '已发布',
+                    type: '选择题',
+                    mutiplyChoose: false,
+                    options: [
+                        { key: 0, value: '团结' },
+                        { key: 1, value: '和谐' },
+                        { key: 2, value: '文明' },
+                        { key: 3, value: '奉献' },
+                    ],
+                    checkedOptions: [],
+                    answers: [0],
+                    typeId: 1,
+                    creator: '王军',
+                    createDate: '2020-12-23',
+                },
+                {
+                    id: '87122',
                     name: '下列不属于社会主义核心价值观的是？',
                     capterId: 3,
                     capter: '线性表',
@@ -131,41 +119,50 @@ export default {
                     status: 0,
                     statusDesc: '已发布',
                     type: '选择题',
+                    mutiplyChoose: true,
+                    options: [
+                        { key: 0, value: '团结' },
+                        { key: 1, value: '嘲讽' },
+                        { key: 2, value: '谩骂' },
+                        { key: 3, value: '团结' },
+                    ],
+                    answers: [1, 2],
+                    checkedOptions: [],
                     typeId: 1,
                     creator: '王军',
                     createDate: '2020-12-23',
                 },
                 {
                     id: '87123',
-                    name: '下列不属于社会主义核心价值观的是？',
+                    name: '团结友爱不属于社会主义核心价值观的内容？',
                     capterId: 3,
                     capter: '线性表',
                     section: '第1节 结构',
                     status: 0,
                     statusDesc: '未发布',
                     status: 0,
-                    type: '选择题',
-                    typeId: 1,
+                    type: '判断题',
+                    typeId: 3,
                     creator: '王军',
                     createDate: '2020-12-23',
                 },
                 {
                     id: '87125',
-                    name: '下列不属于社会主义核心价值观的是？',
+                    name: '社会主义核心价值观：_____、_____、_____？',
                     capterId: 3,
                     capter: '线性表',
                     section: '第1节 结构',
                     status: 0,
                     statusDesc: '已发布',
                     status: 0,
-                    type: '选择题',
-                    typeId: 1,
+                    type: '填空题',
+                    typeId: 2,
                     creator: '周明明',
                     createDate: '2020-12-23',
                 },
                 {
                     id: '87126',
-                    name: '下列不属于社会主义核心价值观的是？',
+                    name: '写出社会主义核心价值观的内容？',
                     capterId: 3,
                     capter: '线性表',
                     section: '第1节 结构',
@@ -173,13 +170,16 @@ export default {
                     statusDesc: '已发布',
                     sectionId: 2,
                     status: 0,
-                    type: '选择题',
-                    typeId: 1,
+                    type: '简答题',
+                    typeId: 4,
                     creator: '吴菲菲',
                     createDate: '2020-12-23',
                 },
             ],
         };
+    },
+    components: {
+        ChoiceDesc,
     },
 };
 </script>
