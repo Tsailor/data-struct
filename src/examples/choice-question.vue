@@ -171,7 +171,7 @@
         </el-row>
     </div>
 </template>
-<style>
+<style scoped>
 .checkgroup {
     display: flex;
 }
@@ -202,27 +202,27 @@
 }
 </style>
 <script>
-import { Message } from 'element-ui'
-import { MessageBox } from 'element-ui'
+import { Message } from 'element-ui';
+import { MessageBox } from 'element-ui';
 import {
     getChoiceQuestionLists,
     delChoiceQuestion,
     editChoices,
-} from '../server/examples'
-import { deepClone } from '../utils/util'
-import _ from 'underscore'
+} from '../server/examples';
+import { deepClone } from '../utils/util';
+import _ from 'underscore';
 export default {
     name: 'ChoiceQuestion',
     data() {
         // 自定义答案的校验暂未实现。
         var validateAnswer = (rule, value, callback) => {
-            console.log('value', value)
+            console.log('value', value);
             if (value.length === 0) {
-                callback(new Error('请设置答案'))
+                callback(new Error('请设置答案'));
             } else {
-                callback()
+                callback();
             }
-        }
+        };
         return {
             DIRECTIONARY: 'ABCDEFGHIJKLMN',
             pageData: [],
@@ -239,12 +239,12 @@ export default {
                     trigger: ['change', 'submit'],
                 },
             ],
-        }
+        };
     },
     computed: {
         // 选择题的数据
         chooseDatas: function() {
-            return this.pageData.filter(v => v.type === 'choose')
+            return this.pageData.filter(v => v.type === 'choose');
         },
     },
     watch: {
@@ -252,22 +252,22 @@ export default {
             handler(newData, oldData) {
                 // 首次监听 oldValue 值异常 剔除。
                 if (!oldData.options) {
-                    return
+                    return;
                 }
                 // id不同，不做比较，剔除。
                 if (newData.questionId !== oldData.questionId) {
-                    return
+                    return;
                 }
 
                 // 选择题的选项数目发生变化的时候
                 if (newData.options.length !== oldData.options.length) {
                     // options 里面是否有 k
                     const InOPtions = k => {
-                        return newData.options.some(v => v.key === k)
-                    }
+                        return newData.options.some(v => v.key === k);
+                    };
                     // 答案的选项必须都在 题目的选项 里面
-                    const ans = newData.answer.filter(v => InOPtions(v))
-                    this.chooseDailogData.answer = ans
+                    const ans = newData.answer.filter(v => InOPtions(v));
+                    this.chooseDailogData.answer = ans;
                 }
             },
             deep: true,
@@ -276,23 +276,23 @@ export default {
     },
     methods: {
         getLists: async function(params) {
-            const res = await getChoiceQuestionLists(params)
+            const res = await getChoiceQuestionLists(params);
 
             if (res.status === 200) {
-                this.pageData = res.data
+                this.pageData = res.data;
             }
         },
         // 点击 编辑
         handleChooseEdit: function(item) {
             // console.log(item)
 
-            this.oldChooseDailogData = deepClone(item) // 选择题模态框数据 旧数据
-            this.chooseDailogData = deepClone(item)
-            this.visible = true
+            this.oldChooseDailogData = deepClone(item); // 选择题模态框数据 旧数据
+            this.chooseDailogData = deepClone(item);
+            this.visible = true;
         },
         // 点击 删除
         handleChooseDel: function(item) {
-            const that = this
+            const that = this;
             MessageBox({
                 title: '提示',
                 message: '此操作将永久删除该题目, 是否继续?',
@@ -301,38 +301,38 @@ export default {
                 type: 'warning',
                 callback: async function(action) {
                     if (action === 'confirm') {
-                        const { questionId } = item
-                        const res = await delChoiceQuestion({ questionId })
+                        const { questionId } = item;
+                        const res = await delChoiceQuestion({ questionId });
                         if (res.status === 200) {
-                            Message.success('操作成功')
-                            that.getLists()
+                            Message.success('操作成功');
+                            that.getLists();
                         }
                     }
                 },
-            })
+            });
         },
         // 删除一个选项
         handleDelOptions: function(option) {
             let ops = this.chooseDailogData.options.filter(
                 v => v.key !== option.key
-            )
+            );
             // 重置 选项的key
             ops = ops.map((v, i) => {
-                return { key: i, value: v.value }
-            })
+                return { key: i, value: v.value };
+            });
             this.chooseDailogData = {
                 ...this.chooseDailogData,
                 options: ops,
-            }
+            };
         },
         // 增加一个选项
         handleAddOption: function() {
-            let length = this.chooseDailogData.options.length
-            const op = { key: length, value: '' }
+            let length = this.chooseDailogData.options.length;
+            const op = { key: length, value: '' };
             this.chooseDailogData = {
                 ...this.chooseDailogData,
                 options: [...this.chooseDailogData.options, op],
-            }
+            };
         },
         // 切换答案选择类型（单选/多选）的时候
         handleChoiceTypeChange: function(v) {
@@ -340,8 +340,8 @@ export default {
                 ...this.chooseDailogData,
                 answer: [],
                 single: v,
-            }
-            console.log('chooseDailogData', this.chooseDailogData)
+            };
+            console.log('chooseDailogData', this.chooseDailogData);
         },
 
         // 单选时，答案改变时，手动设置answer
@@ -349,15 +349,15 @@ export default {
             this.chooseDailogData = {
                 ...this.chooseDailogData,
                 answer: [v],
-            }
+            };
         },
         // 点击编辑后，点击取消
         handleCancel: function() {
-            const that = this
+            const that = this;
             const hasEdit = !_.isEqual(
                 this.oldChooseDailogData,
                 this.chooseDailogData
-            )
+            );
             if (hasEdit) {
                 MessageBox({
                     title: '提示',
@@ -367,31 +367,31 @@ export default {
                     type: 'warning',
                     callback: async function(action) {
                         if (action === 'confirm') {
-                            that.visible = false
+                            that.visible = false;
                         }
                     },
-                })
+                });
             } else {
-                that.visible = false
+                that.visible = false;
             }
         },
         // 点击确定，保存
         handleSubmit: function() {
             this.$refs['chooseDailogData'].validate(async valid => {
                 if (valid) {
-                    const data = deepClone(this.chooseDailogData)
-                    let res = await editChoices(data)
+                    const data = deepClone(this.chooseDailogData);
+                    let res = await editChoices(data);
                     if (res.status === 200) {
-                        Message.success('保存成功')
-                        this.visible = false
-                        this.getLists()
+                        Message.success('保存成功');
+                        this.visible = false;
+                        this.getLists();
                     }
                 }
-            })
+            });
         },
     },
     created() {
-        this.getLists()
+        this.getLists();
     },
-}
+};
 </script>

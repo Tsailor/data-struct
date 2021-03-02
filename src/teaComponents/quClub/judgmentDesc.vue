@@ -1,31 +1,27 @@
 <template>
-    <div class="choicedesc">
+    <div class="judgmentDesc">
         <div>
-            <span>{{ record.mutiplyChoose ? '【多选题】' : '【单选题】' }}</span
+            <span>{{ '【判断题】' }}</span
             ><span>{{ record.name }}</span>
         </div>
         <div class="options">
             <el-checkbox-group
                 v-model="record.checkedOptions"
                 :min="0"
-                :max="record.mutiplyChoose ? record.options.length : 1"
+                :max="1"
             >
                 <el-checkbox
                     v-for="op in record.options"
                     :label="DICTIONARY[op.key]"
                     :key="op.key"
-                    >{{ DICTIONARY[op.key] }} {{ op.value }}
+                >
+                    {{ op.value }}
                 </el-checkbox>
             </el-checkbox-group>
         </div>
 
         <div class="answerbox">
-            正确答案：<span
-                class="answerSpan"
-                v-for="(ans, i) in record.answers"
-                :key="i"
-                >{{ DICTIONARY[ans] }}</span
-            >
+            正确答案：<span class="answerSpan">{{ record.answers.value }}</span>
         </div>
     </div>
 </template>
@@ -34,7 +30,7 @@ export default {
     props: {
         record: Object,
     },
-    name: 'ChoiceDesc',
+    name: 'JudgmentDesc',
     data() {
         return {
             DICTIONARY: 'ABCDEFGHIJK',
@@ -45,7 +41,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.choicedesc {
+.judgmentDesc {
     font-size: 12px;
 }
 .options {
@@ -66,7 +62,7 @@ export default {
 }
 </style>
 <style lang="less">
-.choicedesc {
+.judgmentDesc {
     .el-checkbox__label {
         font-size: 12px;
     }

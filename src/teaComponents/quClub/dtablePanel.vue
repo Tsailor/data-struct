@@ -12,6 +12,20 @@
                         v-if="props.row.typeId === 1"
                         :record="props.row"
                     />
+
+                    <CompletionDesc
+                        v-else-if="props.row.typeId === 2"
+                        :record="props.row"
+                    />
+                    <JudgmentDesc
+                        v-else-if="props.row.typeId === 3"
+                        :record="props.row"
+                    />
+                    <ShortanswerDesc
+                        v-else-if="props.row.typeId === 4"
+                        :record="props.row"
+                    />
+
                     <span v-else>{{ props.row.name }}</span>
                 </template>
             </el-table-column>
@@ -69,6 +83,9 @@
 
 <script>
 import ChoiceDesc from 'teaComponents/quClub/choiceDesc';
+import JudgmentDesc from 'teaComponents/quClub/judgmentDesc';
+import CompletionDesc from 'teaComponents/quClub/completionDesc';
+import ShortanswerDesc from 'teaComponents/quClub/shortanswerDesc';
 export default {
     name: 'DTablePanel',
     computed: {
@@ -140,8 +157,13 @@ export default {
                     section: '第1节 结构',
                     status: 0,
                     statusDesc: '未发布',
-                    status: 0,
+                    options: [
+                        { key: 0, value: '正确' },
+                        { key: 1, value: '错误' },
+                    ],
                     type: '判断题',
+                    checkedOptions: [],
+                    answers: { key: 0, value: '正确' },
                     typeId: 3,
                     creator: '王军',
                     createDate: '2020-12-23',
@@ -154,7 +176,13 @@ export default {
                     section: '第1节 结构',
                     status: 0,
                     statusDesc: '已发布',
-                    status: 0,
+                    options: [
+                        { capType: 0, value: '社会主义核心价值观：' },
+                        { capType: 1, value: '' },
+                        { capType: 1, value: '' },
+                        { capType: 1, value: '' },
+                    ],
+                    answers: ['团结', '友爱', '奉献'],
                     type: '填空题',
                     typeId: 2,
                     creator: '周明明',
@@ -169,7 +197,7 @@ export default {
                     status: 0,
                     statusDesc: '已发布',
                     sectionId: 2,
-                    status: 0,
+                    answers: '爱国、富强、团结、友爱、互助',
                     type: '简答题',
                     typeId: 4,
                     creator: '吴菲菲',
@@ -180,6 +208,9 @@ export default {
     },
     components: {
         ChoiceDesc,
+        JudgmentDesc,
+        CompletionDesc,
+        ShortanswerDesc,
     },
 };
 </script>
