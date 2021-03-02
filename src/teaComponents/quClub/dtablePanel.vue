@@ -1,7 +1,7 @@
 <template>
     <div class="dtablePanel">
         <el-table
-            :data="tableColumns"
+            :data="tableData"
             style="width: 100%;"
             size="mini"
             :highlight-current-row="true"
@@ -89,18 +89,18 @@ import ShortanswerDesc from 'teaComponents/quClub/shortanswerDesc';
 export default {
     name: 'DTablePanel',
     computed: {
-        tableColumns: function() {
-            return this.tableData.filter(v => ({
-                id: v.id,
-                name: v.name,
-                capter: v.capter,
-                section: v.section,
-                statusDesc: v.statusDesc,
-                type: v.type,
-                creator: v.creator,
-                createDate: v.createDate,
-            }));
-        },
+        // tableColumns: function() {
+        //     return this.tableData.filter(v => ({
+        //         id: v.id,
+        //         name: v.name,
+        //         capter: v.capter,
+        //         section: v.section,
+        //         statusDesc: v.statusDesc,
+        //         type: v.type,
+        //         creator: v.creator,
+        //         createDate: v.createDate,
+        //     }));
+        // },
     },
     data() {
         return {
