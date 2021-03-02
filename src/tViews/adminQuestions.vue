@@ -3,13 +3,14 @@
         <SearchPanel :searchForm="selectParams" :submitFun="submitSearch" />
         <ButtonPanel :btnGroup="btnGroup" />
         <DTablePanel />
+        <Pagination />
     </div>
 </template>
 <script>
 import SearchPanel from 'teaComponents/quClub/searchPanel.vue';
 import ButtonPanel from 'teaComponents/quClub/buttonPanel.vue';
 import DTablePanel from 'teaComponents/quClub/dtablePanel.vue';
-
+import Pagination from 'teaComponents/quClub/pagination.vue';
 const quLists = [
     { text: '选择题', value: 0 },
     { text: '填空题', value: 1 },
@@ -82,6 +83,7 @@ export default {
         SearchPanel,
         ButtonPanel,
         DTablePanel,
+        Pagination,
     },
 };
 </script>

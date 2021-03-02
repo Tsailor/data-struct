@@ -33,6 +33,7 @@ import {
     Tag,
     Table,
     TableColumn,
+    Pagination,
 } from 'element-ui';
 import './config/config';
 
@@ -69,6 +70,7 @@ Vue.use(TabPane);
 Vue.use(Tag);
 Vue.use(Table);
 Vue.use(TableColumn);
+Vue.use(Pagination);
 new Vue({
     router,
     render: h => h(App),
