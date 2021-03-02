@@ -39,9 +39,10 @@
                 prop="name"
                 width="360%"
             ></el-table-column>
+            <el-table-column label="题型" prop="type"></el-table-column>
             <el-table-column label="章" prop="capter"></el-table-column>
             <el-table-column label="节" prop="section"></el-table-column>
-            <el-table-column label="题型" prop="type"></el-table-column>
+
             <el-table-column label="来源" prop="creator"></el-table-column>
             <el-table-column
                 label="时间"
