@@ -50,7 +50,20 @@
                 width="125%"
             ></el-table-column>
             <el-table-column label="状态" prop="statusDesc"></el-table-column>
+            <el-table-column label="答题数" prop="ansNumber" width="60%">
+            </el-table-column>
             <el-table-column label="操作" width="200%">
+                <template slot="header" slot-scope="scope">
+                    <div>操作</div>
+                    <el-checkbox
+                        class="only-checkbox"
+                        v-model="onlyShowMyQ"
+                        size="mini"
+                        label="只看我的"
+                        border
+                    />
+                </template>
+
                 <template slot-scope="scope">
                     <el-button type="text" size="mini">收纳</el-button>
                     <el-button type="text" size="mini">编辑</el-button>
@@ -81,7 +94,16 @@
     }
 }
 </style>
-
+<style lang="less" scoped>
+.only-checkbox {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 22px !important;
+    border: rgb(253, 253, 253) 1px solid;
+}
+</style>
 <script>
 import ChoiceDesc from 'teaComponents/quClub/choiceDesc';
 import JudgmentDesc from 'teaComponents/quClub/judgmentDesc';
@@ -105,6 +127,7 @@ export default {
     },
     data() {
         return {
+            onlyShowMyQ: false, // 只看我自己的
             tableData: [
                 {
                     id: '87122',
@@ -113,6 +136,7 @@ export default {
                     capter: '线性表',
                     section: '第1节 结构',
                     status: 0,
+                    ansNumber: 124,
                     statusDesc: '已发布',
                     type: '选择题',
                     mutiplyChoose: false,
@@ -135,6 +159,7 @@ export default {
                     capter: '线性表',
                     section: '第1节 结构',
                     status: 0,
+                    ansNumber: 124,
                     statusDesc: '已发布',
                     type: '选择题',
                     mutiplyChoose: true,
@@ -156,6 +181,7 @@ export default {
                     capterId: 3,
                     capter: '线性表',
                     section: '第1节 结构',
+                    ansNumber: '',
                     status: 0,
                     statusDesc: '未发布',
                     options: [
@@ -174,6 +200,7 @@ export default {
                     name: '社会主义核心价值观：_____、_____、_____？',
                     capterId: 3,
                     capter: '线性表',
+                    ansNumber: 124,
                     section: '第1节 结构',
                     status: 0,
                     statusDesc: '已发布',
@@ -194,6 +221,7 @@ export default {
                     name: '写出社会主义核心价值观的内容？',
                     capterId: 3,
                     capter: '线性表',
+                    ansNumber: 124,
                     section: '第1节 结构',
                     status: 0,
                     statusDesc: '已发布',
