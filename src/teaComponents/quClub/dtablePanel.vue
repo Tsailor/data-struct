@@ -50,7 +50,12 @@
                 width="125%"
             ></el-table-column>
             <el-table-column label="状态" prop="statusDesc"></el-table-column>
-            <el-table-column label="答题数" prop="ansNumber" width="60%">
+            <el-table-column
+                label="答题数"
+                prop="ansNumber"
+                width="60%"
+            ></el-table-column>
+            <el-table-column label="正确率" prop="accuracy" width="60%">
             </el-table-column>
             <el-table-column label="操作" width="200%">
                 <template slot="header" slot-scope="scope">
@@ -149,6 +154,7 @@ export default {
                     checkedOptions: [],
                     answers: [0],
                     typeId: 1,
+                    accuracy: '51%',
                     creator: '王军',
                     createDate: '2020-12-23',
                 },
@@ -161,6 +167,7 @@ export default {
                     status: 0,
                     ansNumber: 124,
                     statusDesc: '已发布',
+                    accuracy: '51%',
                     type: '选择题',
                     mutiplyChoose: true,
                     options: [
@@ -184,6 +191,7 @@ export default {
                     ansNumber: '',
                     status: 0,
                     statusDesc: '未发布',
+                    accuracy: '',
                     options: [
                         { key: 0, value: '正确' },
                         { key: 1, value: '错误' },
@@ -202,6 +210,7 @@ export default {
                     capter: '线性表',
                     ansNumber: 124,
                     section: '第1节 结构',
+                    accuracy: '21%',
                     status: 0,
                     statusDesc: '已发布',
                     options: [
@@ -225,6 +234,7 @@ export default {
                     section: '第1节 结构',
                     status: 0,
                     statusDesc: '已发布',
+                    accuracy: '81%',
                     sectionId: 2,
                     answers: '爱国、富强、团结、友爱、互助',
                     type: '简答题',
