@@ -2,6 +2,8 @@ import Vue from 'vue';
 import App from './App.vue';
 import VueRouter from 'vue-router';
 import router from './router/index';
+// import Vuex from 'vuex';
+import store from './store/index';
 import {
     Button,
     Upload,
@@ -39,6 +41,7 @@ import './config/config';
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
+// Vue.use(Vuex);
 
 Vue.use(Icon);
 Vue.use(Button);
@@ -71,7 +74,9 @@ Vue.use(Tag);
 Vue.use(Table);
 Vue.use(TableColumn);
 Vue.use(Pagination);
+
 new Vue({
     router,
+    store,
     render: h => h(App),
 }).$mount('#app');

@@ -43,6 +43,7 @@
                 :sm="{ span: 12 }"
                 :md="{ span: 8 }"
                 :lg="{ span: 8 }"
+                style="float:right"
             >
                 <el-form-item>
                     <el-button @click="resetForm('curSearchForm')"

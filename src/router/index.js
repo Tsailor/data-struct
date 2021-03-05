@@ -62,7 +62,7 @@ router.beforeEach((to, from, next) => {
     const adminPath = [
         '/admin',
         '/admin/index',
-
+        '/admin/classexam',
         '/admin/class',
         '/admin/questions',
         '/admin/test',

@@ -6,6 +6,8 @@ import AdminTest from 'tViews/adminTest';
 import AdminClass from 'tViews/adminClass';
 import AdminQuestions from 'tViews/adminQuestions';
 import AdminStatistics from 'tViews/adminStatistics';
+import AdminClassexam from 'tViews/adminClassexam';
+import AdminOnlineexam from 'tViews/adminOnlineexam';
 const teaIndex = [
     {
         path: '/admin',
@@ -45,6 +47,18 @@ const teaIndex = [
                 path: 'statistics',
                 components: {
                     default: AdminStatistics,
+                },
+            },
+            {
+                path: 'classexam',
+                components: {
+                    default: AdminClassexam,
+                },
+            },
+            {
+                path: 'onlineexam',
+                components: {
+                    default: AdminOnlineexam,
                 },
             },
         ],

@@ -21,16 +21,20 @@
                 <router-view :key="_key"></router-view>
             </el-col>
         </el-row>
+        <Folder />
     </div>
 </template>
 <script>
 import TeaMenu from 'teaComponents/teaMenu';
+import Folder from 'teaComponents/folder';
+
 export default {
     name: 'AdminIndex',
     methods: {},
     mounted() {},
     components: {
         TeaMenu,
+        Folder,
     },
     computed: {
         _key: function() {
