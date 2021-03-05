@@ -4,6 +4,10 @@
         <ButtonPanel :btnGroup="btnGroup" />
         <DTablePanel />
         <Pagination />
+        <AddQuestionDialog
+            :addQuvisible="addQuvisible"
+            :cancelFun="addQuestionCancel"
+        />
     </div>
 </template>
 <script>
@@ -11,6 +15,7 @@ import SearchPanel from 'teaComponents/quClub/searchPanel.vue';
 import ButtonPanel from 'teaComponents/quClub/buttonPanel.vue';
 import DTablePanel from 'teaComponents/quClub/dtablePanel.vue';
 import Pagination from 'teaComponents/quClub/pagination.vue';
+import AddQuestionDialog from 'teaComponents/quClub/addQuestionDialog.vue';
 const quLists = [
     { text: '选择题', value: 0 },
     { text: '填空题', value: 1 },
@@ -27,11 +32,12 @@ export default {
                 { text: '树', value: 2 },
             ],
             sectionLists: [],
+            addQuvisible: false, // 添加试题的模态框可见性
             btnGroup: [
                 {
                     type: '',
                     label: '添加试题',
-                    fun: this.handleAddClass,
+                    fun: this.handleAddQuestion,
                 },
             ],
         };
@@ -40,8 +46,13 @@ export default {
         submitSearch(params) {
             console.log('params', params);
         },
-        handleAddClass() {
+        handleAddQuestion() {
+            this.addQuvisible = true; // 添加试题的模态框可见性
             alert('add click');
+        },
+        addQuestionCancel() {
+            // 取消/关闭
+            this.addQuvisible = false; //
         },
     },
     mounted() {},
@@ -84,6 +95,7 @@ export default {
         ButtonPanel,
         DTablePanel,
         Pagination,
+        AddQuestionDialog,
     },
 };
 </script>
