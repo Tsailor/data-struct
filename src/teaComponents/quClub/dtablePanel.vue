@@ -62,7 +62,7 @@
             <el-table-column label="正确率" prop="accuracy" width="60%">
             </el-table-column>
             <el-table-column label="操作" width="200%">
-                <template slot="header" slot-scope="">
+                <template slot="header" slot-scope="scope">
                     <div>操作</div>
                     <el-checkbox
                         class="only-checkbox"
@@ -73,10 +73,12 @@
                     />
                 </template>
 
-                <template slot-scope="">
+                <template slot-scope="scope">
                     <el-button type="text" size="mini">收纳</el-button>
                     <el-button type="text" size="mini">编辑</el-button>
-                    <el-button type="text" size="mini">发布</el-button>
+                    <el-button type="text" size="mini">{{
+                        scope.row.status === 1 ? '发布' : '撤回'
+                    }}</el-button>
                     <el-button type="text" size="mini">移除</el-button>
                 </template>
             </el-table-column>
@@ -168,7 +170,7 @@ export default {
                     capterId: 3,
                     capter: '线性表',
                     section: '第1节 结构',
-                    status: 0,
+                    status: 1,
                     ansNumber: 124,
                     statusDesc: '已发布',
                     accuracy: '51%',
@@ -215,7 +217,7 @@ export default {
                     ansNumber: 124,
                     section: '第1节 结构',
                     accuracy: '21%',
-                    status: 0,
+                    status: 1,
                     statusDesc: '已发布',
                     options: [
                         { capType: 0, value: '社会主义核心价值观：' },

@@ -33,6 +33,7 @@
             <el-table-column label="操作" width="200%">
                 <template slot-scope="scope">
                     <el-button type="text" size="mini">编辑</el-button>
+                    <el-button type="text" size="mini">预览</el-button>
                     <el-button type="text" size="mini">发布</el-button>
                     <el-button type="text" size="mini">移除</el-button>
                 </template>

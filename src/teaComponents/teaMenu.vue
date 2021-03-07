@@ -50,7 +50,7 @@
                         <span slot="title">试卷发布</span>
                     </el-menu-item> -->
                     <el-submenu
-                        index=""
+                        index="/admin"
                         :popper-append-to-body="false"
                         class="sub-menu"
                         popper-class="pop-menu"
@@ -59,8 +59,12 @@
                             <i class="el-icon-edit-outline"></i>
                             <span slot="title">试卷发布</span>
                         </template>
-                        <el-menu-item index="classexam">课前测</el-menu-item>
-                        <el-menu-item index="onlineexam">试卷</el-menu-item>
+                        <el-menu-item index="/admin/classexam"
+                            >课前测</el-menu-item
+                        >
+                        <el-menu-item index="/admin/onlineexam"
+                            >试卷</el-menu-item
+                        >
                     </el-submenu>
                 </el-col>
                 <el-col

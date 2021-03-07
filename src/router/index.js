@@ -68,8 +68,13 @@ router.beforeEach((to, from, next) => {
         '/admin/class',
         '/admin/questions',
         '/admin/test',
+        '/admin/onlineexam',
+        '/admin/statistics',
     ];
-
+    /* 路由发生变化修改页面title */
+    if (to.meta.title) {
+        document.title = to.meta.title;
+    }
     if (adminPath.includes(to.path)) {
         if (isLogined()) {
             next(); //放行

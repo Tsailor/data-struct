@@ -1,13 +1,67 @@
 <template>
-    <div class="floder" title="收藏夹">
-        <i class="el-icon-s-claim floder-icon"></i>
+    <div>
+        <div class="floder" title="收藏夹" @click="handleFloderVisible">
+            <i class="el-icon-s-claim floder-icon"></i>
+        </div>
+
+        <div>
+            <el-dialog
+                key="quvisible"
+                title="收藏夹"
+                center
+                :visible.sync="quvisible"
+                :append-to-body="true"
+                :width="width"
+                :before-close="cancelFun"
+            >
+                <QuestionsLists :recordArray="questionsData" :showAns="true" />
+
+                <span slot="footer">
+                    <el-button @click="quvisible = false" size="mini"
+                        >取 消</el-button
+                    >
+                    <el-button
+                        type="primary"
+                        size="mini"
+                        @click="quvisible = false"
+                        >确 定</el-button
+                    >
+                </span>
+            </el-dialog>
+        </div>
     </div>
 </template>
 <script>
+import QuestionsLists from 'teaComponents/exClub/questionsLists';
 export default {
     name: 'Folder',
-    methods: {},
-    mounted() {},
+    data() {
+        return {
+            questionsData: this.$store.state.questionsData,
+            quvisible: false,
+        };
+    },
+    methods: {
+        handleFloderVisible: function() {
+            this.quvisible = true;
+        },
+        cancelFun: function(done) {
+            done();
+        },
+    },
+    computed: {
+        width: function() {
+            return document.documentElement.clientWidth >= 768
+                ? '500px'
+                : '100%';
+        },
+    },
+    mounted() {
+        console.log(this.$store.state.questionsData);
+    },
+    components: {
+        QuestionsLists,
+    },
 };
 </script>
 <style lang="less">

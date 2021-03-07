@@ -36,8 +36,6 @@ export default {
     text-align: left;
     box-sizing: border-box;
 }
-.answerSpan {
-}
 </style>
 <style lang="less">
 .shortanswerDesc {
