@@ -11,19 +11,23 @@
                     <ChoiceDesc
                         v-if="props.row.typeId === 1"
                         :record="props.row"
+                        :showAns="true"
                     />
 
                     <CompletionDesc
                         v-else-if="props.row.typeId === 2"
                         :record="props.row"
+                        :showAns="true"
                     />
                     <JudgmentDesc
                         v-else-if="props.row.typeId === 3"
                         :record="props.row"
+                        :showAns="true"
                     />
                     <ShortanswerDesc
                         v-else-if="props.row.typeId === 4"
                         :record="props.row"
+                        :showAns="true"
                     />
 
                     <span v-else>{{ props.row.name }}</span>
@@ -58,7 +62,7 @@
             <el-table-column label="正确率" prop="accuracy" width="60%">
             </el-table-column>
             <el-table-column label="操作" width="200%">
-                <template slot="header" slot-scope="scope">
+                <template slot="header" slot-scope="">
                     <div>操作</div>
                     <el-checkbox
                         class="only-checkbox"
@@ -69,7 +73,7 @@
                     />
                 </template>
 
-                <template slot-scope="scope">
+                <template slot-scope="">
                     <el-button type="text" size="mini">收纳</el-button>
                     <el-button type="text" size="mini">编辑</el-button>
                     <el-button type="text" size="mini">发布</el-button>

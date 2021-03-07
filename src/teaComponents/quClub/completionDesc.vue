@@ -5,7 +5,7 @@
             ><span>{{ record.name }}</span>
         </div>
 
-        <div class="answerbox">
+        <div class="answerbox" v-if="showAns">
             正确答案：<span
                 v-for="(ans, ind) in record.answers"
                 :key="ind"
@@ -20,6 +20,7 @@
 export default {
     props: {
         record: Object,
+        showAns: Boolean,
     },
     name: 'CompletionDesc',
     data() {

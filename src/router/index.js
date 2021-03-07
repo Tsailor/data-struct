@@ -5,7 +5,7 @@ import Index from '../examples/index';
 import AvatarUpload from '../examples/avatar-upload';
 import Search from '../examples/search';
 import ChoiceQuestion from '../examples/choice-question';
-
+import Template from '../examples/template';
 /* 正式内容 */
 import VueRouter from 'vue-router';
 import teaIndex from './teaIndex';
@@ -21,9 +21,7 @@ export const routes = [
     },
     {
         path: '/examples',
-        // component: Index,
         components: {
-            // nav: Navbar,
             default: Index,
         },
         redirect: '/examples/index',
@@ -43,6 +41,10 @@ export const routes = [
             {
                 path: 'choice-question',
                 component: ChoiceQuestion,
+            },
+            {
+                path: 'template',
+                component: Template,
             },
         ],
     },

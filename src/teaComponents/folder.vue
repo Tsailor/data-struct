@@ -1,8 +1,6 @@
 <template>
-    <div class="floder">
+    <div class="floder" title="收藏夹">
         <i class="el-icon-s-claim floder-icon"></i>
-
-        
     </div>
 </template>
 <script>
@@ -26,13 +24,31 @@ export default {
     z-index: 10;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
     cursor: pointer;
+
+    animation: rotating 5s linear infinite;
+    -moz-animation: rotating 5s linear infinite; /* Firefox */
+    -webkit-animation: rotating 5s linear infinite; /* Safari and Chrome */
+    -o-animation: rotating 5s linear infinite; /* Opera */
+
+    animation-play-state: running;
+    -webkit-animation-play-state: running;
 }
 .floder:hover {
     background-color: #e91e63;
+    animation-play-state: paused;
+    -webkit-animation-play-state: paused;
 }
 .floder-icon {
     font-size: 36px;
     vertical-align: middle;
     color: aliceblue;
+}
+@keyframes rotating {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 </style>

@@ -4,7 +4,7 @@
             <span>{{ '【简答题】' }}</span
             ><span>{{ record.name }}</span>
         </div>
-        <div class="answerbox">
+        <div class="answerbox" v-if="showAns">
             参考答案：<span class="answerSpan">{{ record.answers }}</span>
         </div>
     </div>
@@ -13,6 +13,7 @@
 export default {
     props: {
         record: Object,
+        showAns: Boolean,
     },
     name: 'ShortanswerDesc',
     data() {
