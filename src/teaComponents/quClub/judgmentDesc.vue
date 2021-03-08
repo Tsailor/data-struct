@@ -20,7 +20,7 @@
             </el-checkbox-group>
         </div>
 
-        <div class="answerbox">
+        <div class="answerbox" v-if="showAns">
             正确答案：<span class="answerSpan">{{ record.answers.value }}</span>
         </div>
     </div>
@@ -29,6 +29,7 @@
 export default {
     props: {
         record: Object,
+        showAns: Boolean,
     },
     name: 'JudgmentDesc',
     data() {

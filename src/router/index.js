@@ -5,7 +5,7 @@ import Index from '../examples/index';
 import AvatarUpload from '../examples/avatar-upload';
 import Search from '../examples/search';
 import ChoiceQuestion from '../examples/choice-question';
-
+import Template from '../examples/template';
 /* 正式内容 */
 import VueRouter from 'vue-router';
 import teaIndex from './teaIndex';
@@ -21,9 +21,7 @@ export const routes = [
     },
     {
         path: '/examples',
-        // component: Index,
         components: {
-            // nav: Navbar,
             default: Index,
         },
         redirect: '/examples/index',
@@ -44,6 +42,10 @@ export const routes = [
                 path: 'choice-question',
                 component: ChoiceQuestion,
             },
+            {
+                path: 'template',
+                component: Template,
+            },
         ],
     },
     {
@@ -62,12 +64,17 @@ router.beforeEach((to, from, next) => {
     const adminPath = [
         '/admin',
         '/admin/index',
-
+        '/admin/classexam',
         '/admin/class',
         '/admin/questions',
         '/admin/test',
+        '/admin/onlineexam',
+        '/admin/statistics',
     ];
-
+    /* 路由发生变化修改页面title */
+    if (to.meta.title) {
+        document.title = to.meta.title;
+    }
     if (adminPath.includes(to.path)) {
         if (isLogined()) {
             next(); //放行

@@ -2,7 +2,7 @@
     <div>
         <SearchPanel :searchForm="selectParams" :submitFun="submitSearch" />
         <ButtonPanel :btnGroup="btnGroup" />
-        <DTablePanel />
+        <DTablePanel> </DTablePanel>
         <Pagination />
         <AddQuestionDialog
             :addQuvisible="addQuvisible"

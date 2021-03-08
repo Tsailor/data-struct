@@ -11,19 +11,23 @@
                     <ChoiceDesc
                         v-if="props.row.typeId === 1"
                         :record="props.row"
+                        :showAns="true"
                     />
 
                     <CompletionDesc
                         v-else-if="props.row.typeId === 2"
                         :record="props.row"
+                        :showAns="true"
                     />
                     <JudgmentDesc
                         v-else-if="props.row.typeId === 3"
                         :record="props.row"
+                        :showAns="true"
                     />
                     <ShortanswerDesc
                         v-else-if="props.row.typeId === 4"
                         :record="props.row"
+                        :showAns="true"
                     />
 
                     <span v-else>{{ props.row.name }}</span>
@@ -72,7 +76,9 @@
                 <template slot-scope="scope">
                     <el-button type="text" size="mini">收纳</el-button>
                     <el-button type="text" size="mini">编辑</el-button>
-                    <el-button type="text" size="mini">发布</el-button>
+                    <el-button type="text" size="mini">{{
+                        scope.row.status === 1 ? '发布' : '撤回'
+                    }}</el-button>
                     <el-button type="text" size="mini">移除</el-button>
                 </template>
             </el-table-column>
@@ -164,7 +170,7 @@ export default {
                     capterId: 3,
                     capter: '线性表',
                     section: '第1节 结构',
-                    status: 0,
+                    status: 1,
                     ansNumber: 124,
                     statusDesc: '已发布',
                     accuracy: '51%',
@@ -211,7 +217,7 @@ export default {
                     ansNumber: 124,
                     section: '第1节 结构',
                     accuracy: '21%',
-                    status: 0,
+                    status: 1,
                     statusDesc: '已发布',
                     options: [
                         { capType: 0, value: '社会主义核心价值观：' },
