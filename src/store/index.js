@@ -114,6 +114,100 @@ const store = new Vuex.Store({
                 createDate: '2020-12-23',
             },
         ],
+        syllabusData: [
+            {
+                value: '1',
+                label: '第一章 线性表',
+                children: [
+                    {
+                        value: '1',
+                        label: '第1小节 绪论',
+                    },
+                    {
+                        value: '2',
+                        label: '第2小节 结构',
+                    },
+                    {
+                        value: '3',
+                        label: '第3小节 搜素',
+                    },
+                    {
+                        value: '4',
+                        label: '第4小节 广义线性表',
+                    },
+                ],
+            },
+            {
+                value: '2',
+                label: '第二章 线性表',
+                children: [
+                    {
+                        value: '1',
+                        label: '第1小节 绪论',
+                    },
+                    {
+                        value: '2',
+                        label: '第2小节 结构',
+                    },
+                    {
+                        value: '3',
+                        label: '第3小节 搜素',
+                    },
+                    {
+                        value: '4',
+                        label: '第4小节 广义线性表',
+                    },
+                    {
+                        value: 'xiaolv',
+                        label: '效率',
+                    },
+                ],
+            },
+            {
+                value: '4',
+                label: '第一章 线性表',
+                children: [
+                    {
+                        value: '1',
+                        label: '第1小节 绪论',
+                    },
+                    {
+                        value: 'yizhi',
+                        label: '一致',
+                    },
+                    {
+                        value: 'fankui',
+                        label: '反馈',
+                    },
+                    {
+                        value: 'xiaolv',
+                        label: '效率',
+                    },
+                ],
+            },
+            {
+                value: '5',
+                label: '第一章 线性表',
+                children: [
+                    {
+                        value: '1',
+                        label: '第1小节 绪论',
+                    },
+                    {
+                        value: 'yizhi',
+                        label: '一致',
+                    },
+                    {
+                        value: 'fankui',
+                        label: '反馈',
+                    },
+                    {
+                        value: 'xiaolv',
+                        label: '效率',
+                    },
+                ],
+            },
+        ],
     },
     mutations: {
         // increment(state) {

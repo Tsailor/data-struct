@@ -12,19 +12,20 @@
                 :visible.sync="quvisible"
                 :append-to-body="true"
                 :width="width"
-                :before-close="cancelFun"
             >
-                <QuestionsLists :recordArray="questionsData" :showAns="true" />
+                <QuestionsLists
+                    :recordArray="questionsData"
+                    :showAns="true"
+                    :deleteFun="handledelete"
+                    deleteDesc="取消收藏"
+                />
 
                 <span slot="footer">
-                    <el-button @click="quvisible = false" size="mini"
-                        >取 消</el-button
-                    >
                     <el-button
                         type="primary"
                         size="mini"
                         @click="quvisible = false"
-                        >确 定</el-button
+                        >关闭</el-button
                     >
                 </span>
             </el-dialog>
@@ -33,6 +34,9 @@
 </template>
 <script>
 import QuestionsLists from 'teaComponents/exClub/questionsLists';
+import { Message } from 'element-ui';
+import { MessageBox } from 'element-ui';
+
 export default {
     name: 'Folder',
     data() {
@@ -45,14 +49,35 @@ export default {
         handleFloderVisible: function() {
             this.quvisible = true;
         },
-        cancelFun: function(done) {
-            done();
+        // cancelFun: function(done) {
+        //     done();
+        // },
+        handledelete: questionId => {
+            const that = this;
+            Message.success('操作成功');
+            // MessageBox({
+            //     title: '提示',
+            //     message: '此操作将永久删除该题目, 是否继续?',
+            //     confirmButtonText: '确定',
+            //     cancelButtonText: '取消',
+            //     type: 'warning',
+            //     callback: async function(action) {
+            //         if (action === 'confirm') {
+            //             const { questionId } = item;
+            //             const res = await delChoiceQuestion({ questionId });
+            //             if (res.status === 200) {
+            //                 Message.success('操作成功');
+            //                 that.getLists();
+            //             }
+            //         }
+            //     },
+            // });
         },
     },
     computed: {
         width: function() {
             return document.documentElement.clientWidth >= 768
-                ? '500px'
+                ? '600px'
                 : '100%';
         },
     },

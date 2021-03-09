@@ -38,6 +38,7 @@ import {
     Table,
     TableColumn,
     Pagination,
+    Cascader,
 } from 'element-ui';
 import './config/config';
 
@@ -77,7 +78,7 @@ Vue.use(Tag);
 Vue.use(Table);
 Vue.use(TableColumn);
 Vue.use(Pagination);
-
+Vue.use(Cascader);
 new Vue({
     router,
     store,

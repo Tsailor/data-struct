@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="queslist">
         <el-collapse accordion>
             <el-collapse-item
                 v-for="(record, index) in recordArray"
@@ -10,7 +10,13 @@
                         <div class="list-item">
                             {{ `【${record.type}】` }}{{ record.name }}
                         </div>
-                        <i class="el-icon-delete"></i>
+                        <div class="delete-box">
+                            <i
+                                :title="deleteDesc"
+                                class="el-icon-delete delete-box-i"
+                                @click.stop="deleteFun"
+                            ></i>
+                        </div>
                     </div>
                 </template>
                 <ChoiceDesc
@@ -50,6 +56,8 @@ export default {
     props: {
         recordArray: Array,
         showAns: Boolean,
+        deleteFun: Function,
+        deleteDesc: String,
     },
     data() {
         return {};
@@ -65,8 +73,12 @@ export default {
 <style lang="less" scoped>
 .list-item-box {
     height: 100%;
-    width: 100%;
+    flex: 1;
     display: flex;
+    overflow: hidden;
+
+    // white-space: nowrap;
+    // text-overflow: ellipsis;
 }
 .list-item {
     width: 90%;
@@ -74,5 +86,10 @@ export default {
 
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.delete-box-i {
+    box-sizing: border-box;
+    padding: 6px;
 }
 </style>

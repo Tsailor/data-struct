@@ -48,7 +48,6 @@ export default {
         },
         handleAddQuestion() {
             this.addQuvisible = true; // 添加试题的模态框可见性
-            alert('add click');
         },
         addQuestionCancel() {
             // 取消/关闭
