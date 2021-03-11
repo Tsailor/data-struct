@@ -2,7 +2,7 @@
     <div>
         <el-form
             :model="chooseData"
-            :ref="formref"
+            ref="chooseData"
             label-width="24%"
             style="width:90%;"
             label-suffix=":"
@@ -101,7 +101,13 @@
             <el-form-item
                 label="选择归属"
                 size="mini"
-                :rules="belongRule"
+                :rules="[
+                    {
+                        required: true,
+                        message: '请选择归属',
+                        trigger: 'blur',
+                    },
+                ]"
                 prop="belong"
             >
                 <el-cascader
@@ -118,7 +124,9 @@
                     class="el-icon-plus el-icon--right"
                     >新增选项</el-button
                 >
-                <el-button @click="handleCancel">取 消</el-button>
+                <el-button @click="handleFormCancel" size="mini"
+                    >取 消</el-button
+                >
                 <el-button type="primary" @click="handleSubmit" size="mini"
                     >确 定</el-button
                 >
@@ -134,7 +142,11 @@ export default {
     name: 'ChoiceForm',
     props: {
         formData: Object,
-        formref: String,
+        // formref: String,
+        handlecancelFun: Function,
+    },
+    created() {
+        console.log('handlecancelFun', this.handlecancelFun);
     },
     computed: {
         syllabusData: function() {
@@ -149,13 +161,7 @@ export default {
                 callback();
             }
         };
-        var validateBelong = (rule, value, callback) => {
-            if (value.length < 2) {
-                callback(new Error('请设置答案'));
-            } else {
-                callback();
-            }
-        };
+
         return {
             DIRECTIONARY: 'ABCDEFGHIJKLMN',
             chooseData: deepClone(this.formData),
@@ -167,25 +173,17 @@ export default {
                     trigger: ['blur', 'onchange', 'submit'],
                 },
             ],
-            belongRule: [
-                {
-                    type: 'array',
-                    required: true,
-                    validator: validateBelong,
-                    trigger: ['blur', 'onchange', 'submit'],
-                },
-            ],
         };
     },
-    watch: {
-        chooseData: {
-            handler(newVal, oldVal) {
-                console.log('newVal,oldVal', newVal, oldVal);
-            },
-            deep: true,
-            immediate: false,
-        },
-    },
+    // watch: {
+    //     chooseData: {
+    //         handler(newVal, oldVal) {
+    //             console.log('newVal,oldVal', newVal, oldVal);
+    //         },
+    //         deep: true,
+    //         immediate: false,
+    //     },
+    // },
     methods: {
         // 删除一个选项
         handleDelOptions: function(option) {
@@ -245,8 +243,10 @@ export default {
         },
 
         handleSubmit: function() {
-            this.$refs[this.formref].validate(async valid => {
+            const that = this;
+            this.$refs['chooseData'].validate(async valid => {
                 if (valid) {
+                    console.log('this.chooseDailogData', that.chooseData);
                     // const data = deepClone(this.chooseDailogData);
                     // let res = await editChoices(data);
                     // if (res.status === 200) {
@@ -257,7 +257,9 @@ export default {
                 }
             });
         },
-        handleCancel: function() {},
+        handleFormCancel: function() {
+            this.handlecancelFun();
+        },
     },
 };
 </script>

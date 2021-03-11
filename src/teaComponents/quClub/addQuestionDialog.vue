@@ -15,10 +15,16 @@
                 <ChoiceForm
                     v-if="typeId === '1'"
                     :formData="formData"
-                    formref="formref"
+                    :handlecancelFun="handlecancelFun"
                 />
             </el-tab-pane>
-            <el-tab-pane label="填空题" name="2">配置管理</el-tab-pane>
+            <el-tab-pane label="填空题" name="2">
+                <CompletionForm
+                    v-if="typeId === '2'"
+                    :formData="formData"
+                    :handlecancelFun="handlecancelFun"
+                />
+            </el-tab-pane>
             <el-tab-pane label="判断题" name="3">角色管理</el-tab-pane>
             <el-tab-pane label="简答题" name="4">定时任务补偿</el-tab-pane>
         </el-tabs>
@@ -28,6 +34,8 @@
 // import { Message } from 'element-ui';
 // import { MessageBox } from 'element-ui';
 import ChoiceForm from 'teaComponents/formClub/choiceForm.vue';
+import CompletionForm from 'teaComponents/formClub/completionForm.vue';
+
 export default {
     props: {
         addQuvisible: Boolean,
@@ -37,7 +45,7 @@ export default {
     data() {
         return {
             typeId: '1', // 1 选择题 2 填空 3判断 4 简答
-            ref: 'formref', // 表单引用
+            // ref: 'formref', // 表单引用
             formData: {},
         };
     },
@@ -45,6 +53,9 @@ export default {
     methods: {
         handleClick(v) {
             console.log(typeof v);
+        },
+        handlecancelFun() {
+            this.cancelFun();
         },
     },
     mounted() {},
@@ -57,6 +68,7 @@ export default {
     },
     components: {
         ChoiceForm,
+        CompletionForm,
     },
 };
 </script>
