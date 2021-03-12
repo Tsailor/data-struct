@@ -38,7 +38,8 @@
                         option.capType === 0 ? '请输入题目文本' : '请设置答案'
                     "
                     @input="handleInput"
-                ></el-input>
+                >
+                </el-input>
                 <el-button
                     style="margin-left:5%"
                     icon="el-icon-minus"
@@ -144,6 +145,24 @@ export default {
         }, 500),
         transformTitle: function() {
             console.log('transformTitle', this.completionData);
+            const { options } = this.completionData;
+            if (options && options.length > 0) {
+                let titArrs = '';
+                for (let i = 0; i < options.length; i++) {
+                    if (options[i].capType === 0) {
+                        titArrs += options[i].value;
+                    } else if (
+                        options[i].capType === 1 &&
+                        options[i + 1] &&
+                        options[i + 1].capType === 1
+                    ) {
+                        titArrs += '______' + '、';
+                    } else {
+                        titArrs += '______';
+                    }
+                }
+                console.log(titArrs);
+            }
         },
     },
     computed: {
